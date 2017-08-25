@@ -13,7 +13,7 @@ class ApplicationController < Sinatra::Base
     @local_id = params[:local_id]
     @cite_to = params[:cite_to]
 
-    redirect redirect_link
+    erb :post_form
   end
 
   def export_citations_url
