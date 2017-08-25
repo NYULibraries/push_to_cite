@@ -13,10 +13,23 @@ module CallingSystems
     end
 
     def get_openurl
-      @get_openurl ||= parsed_body["delivery"]["link"].select {|el| el["displayLabel"] == @@link_field}.first["linkURL"]
+      get_link_field_link.first["linkURL"] unless get_link_field_link.first.nil?
+      get_default_openurl
     end
 
    private
+
+    def get_links
+      @get_links ||= parsed_body["delivery"]["link"]
+    end
+
+    def get_link_field_link
+      @get_openurl ||= get_links.select {|el| el["displayLabel"] == @@link_field}
+    end
+
+    def get_default_openurl
+      @get_default_openurl ||= get_links.select {|el| el["displayLabel"] == "openurl"}.first["linkURL"]
+    end
 
     def parsed_body
       @parsed_body ||= JSON.parse(get_record.body)
