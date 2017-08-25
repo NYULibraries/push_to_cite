@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>NYU Libraries | Citero</title>
+    <link rel="SHORTCUT ICON" href="//library.nyu.edu/favicon.ico">
+    <script type="text/javascript">
+        window.onload=function(){
+          document.getElementsByClassName("no_js")[0].style.visibility = 'hidden';
+          document.getElementById("submit").click();
+        }
+    </script>
+  </head>
+  <body>
+    <div class="no_js">
+      <div class="inner_form_dialog">
+        <form id="" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
+          <h2>Push to <%= @cite_to %> </h2>
+          <div class="formError">
+          </div>
+          <fieldset>
+              <legend></legend>
+              <textarea type="hidden" name="from_format" id="from_format">openurl</textarea>
+              <textarea type="hidden" name="to_format" id="to_format"><%= @cite_to.downcase %></textarea>
+              <textarea name="data" id="data"><%= redirect_link %></textarea>
+              <div class="section">
+                  <input id="submit" name="commit" type="submit" value="Push to "+ <%= @cite_to %> />
+              </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
