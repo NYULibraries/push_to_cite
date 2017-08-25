@@ -12,6 +12,11 @@ class ApplicationController < Sinatra::Base
     @calling_system = params[:calling_system]
     @local_id = params[:local_id]
     @cite_to = params[:cite_to]
+    redirect redirect_link
+  end
+
+  def redirect_link
+    "http://web1.bobst.nyu.edu/export_citations/export_citations?to_format=#{@cite_to}&#{URI.parse(get_primo_link).query}"
   end
 
   def get_primo_link(link_field = "lln10")
