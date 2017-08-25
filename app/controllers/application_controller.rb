@@ -12,11 +12,28 @@ class ApplicationController < Sinatra::Base
     @calling_system = params[:calling_system]
     @local_id = params[:local_id]
     @cite_to = params[:cite_to]
+
     redirect redirect_link
   end
 
+  def export_citations_url
+    @export_citations_url ||= "http://web1.bobst.nyu.edu/export_citations/export_citations"
+  end
+
+  def query_hash
+    @query_hash ||= URI.parse(get_primo_link).query
+  end
+
+  def clean_query_hash
+    @clean_query_hash ||= CGI.parse(query_hash).delete_if {|key,value| value.join.to_s.empty? }
+  end
+
+  def clean_query_string
+    @clean_query_string ||= URI.encode_www_form(clean_query_hash)
+  end
+
   def redirect_link
-    "http://web1.bobst.nyu.edu/export_citations/export_citations?to_format=#{@cite_to}&#{URI.parse(get_primo_link).query}"
+    @redirect_link ||= "#{export_citations_url}?to_format=#{@cite_to}&#{clean_query_string}"
   end
 
   def get_primo_link(link_field = "lln10")
