@@ -5,6 +5,7 @@ require 'pry'
 
 class ApplicationController < Sinatra::Base
 
+  set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
   set :public_folder, File.expand_path('../../../public', __FILE__)
 
@@ -14,7 +15,22 @@ class ApplicationController < Sinatra::Base
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], params[:cite_to]
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
-    erb :post_form
+    if @institution && @local_id && @cite_to && @calling_system
+      erb :post_form
+    else
+      content_type :json
+      halt 400, { error: "Missing parameter(s): All parameters are required (institution, local_id, cite_to, calling_system)" }.to_json
+    end
+  end
+
+  error CallingSystems::Primo::InvalidRecordError do
+    content_type :json
+    halt 500, { error: "Invalid record: The local_id is either invalid or cannot be found." }.to_json
+  end
+
+  error ExportCitations::InvalidUriError do
+    content_type :json
+    halt 500, { error: 'Invalid URI received from data' }.to_json
   end
 
   def redirect_link

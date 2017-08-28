@@ -2,8 +2,10 @@ require 'rest-client'
 
 module CallingSystems
   class Primo
+    class InvalidRecordError < StandardError; end
+
     @@link_field = "lln10"
-    @@primo_base_url = "http://bobcatdev.library.nyu.edu"
+    @@primo_base_url = ENV['PRIMO_BASE_URL'] || "http://bobcatdev.library.nyu.edu"
 
     attr_accessor :local_id, :institution
 
@@ -21,6 +23,8 @@ module CallingSystems
 
     def get_links
       @get_links ||= parsed_body["delivery"]["link"]
+    rescue Exception => e
+      raise Primo::InvalidRecordError, parsed_body
     end
 
     def get_link_field_link
