@@ -1,5 +1,7 @@
 class ExportCitations
-  @@export_citations_url = "http://web1.bobst.nyu.edu/export_citations/export_citations"
+  class InvalidUriError < StandardError; end
+
+  @@export_citations_url = ENV['EXPORT_CITATIONS_URL'] || "http://web1.bobst.nyu.edu/export_citations/export_citations"
   attr_accessor :data, :cite_to
 
   def self.export_citations_url
@@ -19,10 +21,14 @@ class ExportCitations
 
   def query_hash
     @query_hash ||= URI.parse(data).query
+  rescue StandardError => e
+    raise InvalidUriError, e
   end
 
   def clean_query_hash
     @clean_query_hash ||= CGI.parse(query_hash).delete_if {|key,value| value.join.to_s.empty? }
+  rescue StandardError => e
+    raise InvalidUriError, e
   end
 
   def clean_query_string
