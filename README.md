@@ -27,8 +27,9 @@ The only interface with this API is a `GET` request with the following params (*
 - ~~Modularize, e.g. calling systems, etc.~~
 - Get PNX from primo and POST to export citations
 - ~~Inject ENVVARS for URL configs~~
-- Update the POST form (it was written years ago and never reviewed)
+- ~~Update the POST form (it was written years ago and never reviewed)~~
 - ~~Error handling~~
 - Loading page view
+- Pretty error messages
 - ~~Document the API~~
 - Swagger?

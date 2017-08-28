@@ -9,7 +9,7 @@ gem 'rest-client'
 group :test do
   gem 'rspec'
   gem 'rspec-its'
-  gem 'rack-test', require: "rack/test"
+  gem 'rack-test', require: 'rack/test'
   gem 'vcr'
   gem 'webmock'
 end
