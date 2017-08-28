@@ -2,6 +2,7 @@ require 'sinatra/base'
 require_relative '../lib/calling_systems/primo'
 require_relative '../lib/export_citations'
 require 'pry'
+require_relative '../../lib/pnx_json'
 
 class ApplicationController < Sinatra::Base
 
@@ -16,6 +17,7 @@ class ApplicationController < Sinatra::Base
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
     unless missing_params?
+      @csf = PnxJson.new(get_primo_parsed).to_csf
       erb :post_form
     else
       status 400
