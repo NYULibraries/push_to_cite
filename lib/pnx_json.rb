@@ -72,12 +72,13 @@ class PnxJson
 
   def parse_and_add_creators
     contributors = []
+    creator = [@json["creator"]].compact
 
     creators = @json["creator"]
-    creators = @json["contributor"] if @json["creator"].empty?
-    contributors = @json["contributor"] unless @json["creator"].empty?
+    creators = @json["contributor"] if creator.empty?
+    contributors = @json["contributor"] unless creator.empty?
 
-    creators = @json["addau"] if (@json["creator"].empty? && @json["contributor"].empty?)
+    creators = @json["addau"] if (creator.empty? && [@json["contributor"]].compact.empty?)
 
     add_creators(creators, "author")
     add_creators(contributors, "contributor")
@@ -92,7 +93,7 @@ class PnxJson
   end
 
   def parse_and_add_publisher
-    return if @json["publisher"].empty?
+    return if [@json["publisher"]].compact.empty?
     @json["publisher"].each do |json_pub|
       if json_pub.include? " : "
         pub_place, publisher = json_pub.split(" : ",2).map(&:strip)
