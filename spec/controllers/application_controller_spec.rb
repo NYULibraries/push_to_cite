@@ -26,12 +26,6 @@ describe 'ApplicationController' do
     end
     context 'when all required parameters are present' do
       it { is_expected.to include 'action="http://web1.bobst.nyu.edu' }
-      context 'but local_id is an invalid record' do
-        let(:local_id) { 'somenonsense' }
-        it { is_expected.to include "We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem." }
-        it { is_expected.to include "Make sure to include the following ID in your report:" }
-        it { is_expected.to include local_id }
-      end
     end
     context 'when local_id is missing' do
       let(:local_id) { nil }

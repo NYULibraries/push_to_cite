@@ -13,10 +13,10 @@ describe CallingSystems::Primo do
     its(:institution) { is_expected.to eql institution }
   end
 
-  describe '#get_openurl' do
-    subject { primo.get_openurl }
+  describe '#get_pnx_json' do
+    subject { primo.get_pnx_json }
     context 'when link field is populated' do
-      it { is_expected.to include "rfr_id=info:sid/primo.exlibrisgroup.com:primo-#{local_id}" }
+      its(['pnxId']) { is_expected.to eql local_id }
     end
   end
 
