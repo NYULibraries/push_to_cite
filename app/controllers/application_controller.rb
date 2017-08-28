@@ -15,22 +15,21 @@ class ApplicationController < Sinatra::Base
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], params[:cite_to]
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
-    if @institution && @local_id && @cite_to && @calling_system
+    unless missing_params?
       erb :post_form
     else
-      content_type :json
-      halt 400, { error: "Missing parameter(s): All parameters are required (institution, local_id, cite_to, calling_system)" }.to_json
+      status 400
+      erb :error
     end
   end
 
-  error CallingSystems::Primo::InvalidRecordError do
-    content_type :json
-    halt 500, { error: "Invalid record: The local_id is either invalid or cannot be found." }.to_json
+  error StandardError do
+    status 400
+    erb :error
   end
 
-  error ExportCitations::InvalidUriError do
-    content_type :json
-    halt 500, { error: 'Invalid URI received from data' }.to_json
+  def missing_params?
+    !(@institution && @local_id && @cite_to && @calling_system)
   end
 
   def redirect_link
