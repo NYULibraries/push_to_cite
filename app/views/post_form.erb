@@ -20,9 +20,9 @@
       <form id="push_to_form" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
         <h2>Push to <%= @cite_to %> </h2>
         <fieldset>
-            <textarea type="hidden" name="from_format" id="from_format">openurl</textarea>
+            <textarea type="hidden" name="from_format" id="from_format">csf</textarea>
             <textarea type="hidden" name="to_format" id="to_format"><%= @cite_to.downcase %></textarea>
-            <textarea name="data" id="data"><%= redirect_link %></textarea>
+            <textarea name="data" id="data"><%= @csf %></textarea>
             <div class="section">
                 <input id="submit" name="commit" type="submit" value="Push to "+ <%= @cite_to %> />
             </div>
