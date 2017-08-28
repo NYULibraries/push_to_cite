@@ -14,10 +14,4 @@ end
 
 RSpec.configure do |config|
   config.include RSpecMixin
-
-  config.around(:each) do |example|
-    VCR.use_cassette('oauth') do
-      example.run
-    end
-  end
 end
