@@ -25,7 +25,7 @@ The only interface with this API is a `GET` request with the following params (*
 
 - ~~Tests~~
 - ~~Modularize, e.g. calling systems, etc.~~
-- Get PNX from primo and POST to export citations
+- ~~Get PNX from primo and POST to export citations~~ **UPDATE:** ~~Use JSON and convert to CSF and POST that to export citations~~
 - ~~Inject ENVVARS for URL configs~~
 - ~~Update the POST form (it was written years ago and never reviewed)~~
 - ~~Error handling~~
