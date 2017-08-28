@@ -15,8 +15,11 @@ module CallingSystems
     end
 
     def get_openurl
-      get_link_field_link.first["linkURL"] unless get_link_field_link.first.nil?
-      get_default_openurl
+      unless get_link_field_link.empty?
+        get_link_field_link.first["linkURL"]
+      else
+        get_default_openurl
+      end
     end
 
    private

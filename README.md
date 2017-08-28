@@ -1,4 +1,4 @@
-# PushTo Cite
+# PushToCite
 
 This is a microservice that fetches the metadata for a given record from a calling system (i.e. Exlibris Primo) and forwards it on to a citation management service (i.e. [ExportCitations](https://github.com/NYULibraries/export_citations)).
 
@@ -29,7 +29,7 @@ The only interface with this API is a `GET` request with the following params (*
 - ~~Inject ENVVARS for URL configs~~
 - ~~Update the POST form (it was written years ago and never reviewed)~~
 - ~~Error handling~~
-- Loading page view
-- Pretty error messages
+- ~~Loading page view~~
+- ~~Pretty error messages~~
 - ~~Document the API~~
 - Swagger?

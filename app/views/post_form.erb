@@ -5,16 +5,19 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>NYU Libraries</title>
     <link rel="SHORTCUT ICON" href="//library.nyu.edu/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/loader.css">
     <script type="text/javascript">
         window.onload=function(){
           document.getElementsByClassName("no_js")[0].style.visibility = 'hidden';
           document.getElementById("submit").click();
+          document.getElementsByTagName( "html" )[0].className.replace( /loading/, "" );
         }
     </script>
   </head>
   <body>
+    <div class="loading">Loading...</div>
     <div class="no_js">
-      <form id="" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
+      <form id="push_to_form" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
         <h2>Push to <%= @cite_to %> </h2>
         <fieldset>
             <textarea type="hidden" name="from_format" id="from_format">openurl</textarea>
