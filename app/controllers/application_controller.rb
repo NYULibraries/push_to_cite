@@ -1,7 +1,6 @@
 require 'sinatra/base'
 require_relative '../lib/calling_systems/primo'
-require 'pry'
-require_relative '../../lib/pnx_json'
+require_relative '../lib/pnx_json'
 
 class ApplicationController < Sinatra::Base
 
