@@ -1,3 +1,9 @@
+PATH
+  remote: /apps/citero
+  specs:
+    citero (1.0.0.beta)
+      ox (~> 2.8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,6 +26,7 @@ GEM
     mime-types-data (3.2016.0521)
     mustermann (1.0.2)
     netrc (0.11.0)
+    ox (2.8.2)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -76,7 +83,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+<<<<<<< HEAD
   json (~> 2.1.0)
+=======
+  citero!
+  json
+>>>>>>> First pass at integrating citero directly into PushToCite
   pry
   rack-test
   rake (~> 12.0)
@@ -89,7 +101,14 @@ DEPENDENCIES
   webmock (~> 3)
 
 RUBY VERSION
+<<<<<<< HEAD
    ruby 2.4.4p296
 
 BUNDLED WITH
    1.16.2
+=======
+   ruby 2.4.3p205
+
+BUNDLED WITH
+   1.16.1
+>>>>>>> First pass at integrating citero directly into PushToCite

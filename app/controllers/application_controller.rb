@@ -1,6 +1,9 @@
 require 'sinatra/base'
 require_relative '../lib/calling_systems/primo'
 require_relative '../lib/pnx_json'
+require 'citero'
+require_relative '../lib/push_formats/base'
+require_relative '../lib/push_formats/endnote'
 
 class ApplicationController < Sinatra::Base
 
@@ -11,11 +14,13 @@ class ApplicationController < Sinatra::Base
   @@whitelisted_calling_systems = %w(primo)
 
   get('/') do
-    @institution, @local_id, @cite_to = params[:institution], params[:local_id], params[:cite_to]
+    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
     unless missing_params?
-      @csf = PnxJson.new(primo.get_pnx_json).to_csf
+      # @csf = PnxJson.new(primo.get_pnx_json).to_csf
+      # @csf = Citero::Inputs::PnxJson.new(primo.get_pnx_json).csf
+      @csf = Citero.map(primo.get_pnx_json).from_pnx_json.to_ris
       erb :post_form
     else
       status 400
@@ -23,9 +28,19 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+
   error StandardError do
     status 400
     erb :error
+  end
+
+  def push_format(cite_to)
+    case cite_to.to_sym
+      when :endnote
+        PushFormats::Endnote.new
+      when :ris
+      else raise ArgumentError
+    end
   end
 
   def missing_params?

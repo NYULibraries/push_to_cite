@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rake', '~> 12.0'
-gem 'sinatra', '~> 2.0.2'
-gem 'unicorn', '~> 5.3.0'
-gem 'json', '~> 2.1.0'
-gem 'rest-client', '~> 2.0.2'
+gem 'rake'
+gem 'sinatra'
+gem 'unicorn'
+gem 'json'
+gem 'rest-client'
+# gem 'citero', github: 'NYULibraries/citero', branch: 'bug/pnx_json'
+gem 'citero', path: '/apps/citero'
 
 group :test do
   gem 'rspec', '~> 3'
@@ -18,4 +20,4 @@ group :test, :development do
   gem 'pry'
 end
 
-ruby '2.4.4'
+ruby '2.4.3'
