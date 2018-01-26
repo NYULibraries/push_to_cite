@@ -38,7 +38,10 @@ class ApplicationController < Sinatra::Base
     case cite_to.to_sym
       when :endnote
         PushFormats::Endnote.new
+      when :refworks
+      when :easybib
       when :ris
+      when :bibtex
       else raise ArgumentError
     end
   end
