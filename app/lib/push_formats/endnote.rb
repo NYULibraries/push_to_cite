@@ -5,7 +5,11 @@ module PushFormats
       @action = "http://www.myendnoteweb.com/?func=directExport&partnerName=Primo&dataIdentifier=1&dataRequestUrl="
       @name = "EndNote"
       @id = "endnote"
-      super(name, id, action, nil, nil, nil)
+      @push_to_external = true
+      @redirect = true
+      @to_format = 'ris'
+      super()
     end
+
   end
 end
