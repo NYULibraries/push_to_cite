@@ -1,10 +1,5 @@
 require 'sinatra/base'
-require_relative '../lib/calling_systems/primo'
-require_relative '../lib/pnx_json'
 require 'citero'
-require_relative '../lib/push_formats/base'
-require_relative '../lib/push_formats/endnote'
-
 class ApplicationController < Sinatra::Base
 
   set :show_exceptions, false
@@ -18,16 +13,14 @@ class ApplicationController < Sinatra::Base
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
     unless missing_params?
-      # @csf = PnxJson.new(primo.get_pnx_json).to_csf
-      # @csf = Citero::Inputs::PnxJson.new(primo.get_pnx_json).csf
-      @csf = Citero.map(primo.get_pnx_json).from_pnx_json.to_ris
-      erb :post_form
+      # require 'pry'; binding.pry
+      @csf = Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
+      push_to_or_download
     else
       status 400
       erb :error
     end
   end
-
 
   error StandardError do
     status 400
@@ -39,19 +32,43 @@ class ApplicationController < Sinatra::Base
       when :endnote
         PushFormats::Endnote.new
       when :refworks
+        PushFormats::Refworks.new
       when :easybib
+        PushFormats::Easybib.new
       when :ris
+        PushFormats::Ris.new
       when :bibtex
+        PushFormats::Bibtex.new
       else raise ArgumentError
     end
   end
 
-  def missing_params?
-    !(@institution && @local_id && @cite_to && @calling_system)
+  def push_to_or_download
+    @cite_to.push_to_external ? push_to_external : download
   end
 
-  def export_citations_url
-    ENV['EXPORT_CITATIONS_URL'] || "http://web1.bobst.nyu.edu/export_citations/export_citations"
+  # Downloads a file with citation
+  def download
+    content_type @cite_to.mimetype
+    attachment(@cite_to.filename)
+    @csf.force_encoding('UTF-8')
+  end
+
+  def push_to_external
+    # require 'pry';binding.pry
+    if !params.has_key?(:callback) && @cite_to.redirect
+      redirect @cite_to.action + callback, 303
+    else
+      erb :post_form
+    end
+  end
+
+  def callback
+    @callback ||= ERB::Util.url_encode("#{request.url}&callback")
+  end
+
+  def missing_params?
+    !(@institution && @local_id && @cite_to && @calling_system)
   end
 
   def primo
