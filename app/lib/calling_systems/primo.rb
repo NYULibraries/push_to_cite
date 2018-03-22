@@ -4,10 +4,12 @@ module CallingSystems
   class Primo
 
     @@primo_base_url = ENV['PRIMO_BASE_URL'] || "http://bobcatdev.library.nyu.edu"
+    @@proxy_url = ENV['PROXIMO_URL']
 
     attr_accessor :local_id, :institution
 
     def initialize(local_id, institution)
+      RestClient.proxy = @@proxy_url
       @local_id = local_id
       @institution = institution
     end
