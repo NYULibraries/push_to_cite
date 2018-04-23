@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55461631-21"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-55461631-21');
+    </script>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>NYU Libraries | Citation Error</title>
+    <title>Citation Error | New York University Division of Libraries</title>
     <style>
       header {
         margin: auto;
@@ -16,13 +25,19 @@
       .breadcrumb {
         padding-left: 30px !important;
       }
+      a {
+        color: #2200CC;
+      }
+      .breadcrumb > .active {
+        color: #535353;
+      }
     </style>
-    <link rel="SHORTCUT ICON" href="//library.nyu.edu/favicon.ico">
+    <link rel="SHORTCUT ICON" href="https://cdn.library.nyu.edu/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   </head>
   <body>
     <header>
-      <span><a href="https://library.nyu.edu" target="_blank"><img src="//library.nyu.edu/assets/images/nyulibraries-logo.svg" alt="NYU Libraries" width="233" height="30"></a></span>
+      <span><a href="https://library.nyu.edu" target="_blank"><img src="https://cdn.library.nyu.edu/images/nyulibraries-logo.svg" alt="NYU Libraries" width="233" height="30"></a></span>
     </header>
     <nav>
       <ul class="breadcrumb">
@@ -30,29 +45,31 @@
         <li class="active">Sorry, there was an error</li>
       </ul>
     </nav>
-    <div class="nyu-container">
-      <div class="col-sm-12">
-        <h1>Sorry, there was an error</h1>
+    <main>
+      <div class="nyu-container">
+        <div class="col-sm-12">
+          <h1>Sorry, there was an error</h1>
 
-        <% if missing_params? %>
-          <p>We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.</p>
-        <% else %>
-          <p>We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.</p>
-        <% end %>
+          <% if missing_params? %>
+            <p>We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.</p>
+          <% else %>
+            <p>We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.</p>
+          <% end %>
 
-        <% if @local_id && @local_id != '' %>
-        Make sure to include the following ID in your report:
-        <code>
-          <%= @local_id %>
-        </code>
-        <% end %>
+          <% if @local_id && @local_id != '' %>
+          Make sure to include the following ID in your report:
+          <code>
+            <%= @local_id %>
+          </code>
+          <% end %>
 
-        <h2>Suggested Links</h2>
-        <ul>
-          <li><a href="https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH" target="_blank">Report a Broken Link</a></li>
-          <li><a href="https://library.nyu.edu/ask/" target="_blank">Ask a Librarian</a></li>
-        </ul>
+          <h2>Suggested Links</h2>
+          <ul>
+            <li><a href="https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH" target="_blank">Report a Broken Link</a></li>
+            <li><a href="https://library.nyu.edu/ask/" target="_blank">Ask a Librarian</a></li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

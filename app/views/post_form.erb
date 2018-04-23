@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55461631-21"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-55461631-21');
+    </script>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>NYU Libraries</title>
-    <link rel="SHORTCUT ICON" href="//library.nyu.edu/favicon.ico">
+    <title>Cite | New York University Division of Libraries</title>
+    <link rel="SHORTCUT ICON" href="https://cdn.library.nyu.edu/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/css/loader.css">
     <script type="text/javascript">
         window.onload=function(){
@@ -15,19 +24,21 @@
     </script>
   </head>
   <body>
-    <div class="loading">Loading...</div>
-    <div class="no_js">
-      <form id="push_to_form" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
-        <h2>Push to <%= @cite_to %> </h2>
-        <fieldset>
-            <textarea type="hidden" name="from_format" id="from_format">csf</textarea>
-            <textarea type="hidden" name="to_format" id="to_format"><%= @cite_to.downcase %></textarea>
-            <textarea name="data" id="data"><%= @csf %></textarea>
-            <div class="section">
-                <input id="submit" name="commit" type="submit" value="Push to "+ <%= @cite_to %> />
-            </div>
-        </fieldset>
-      </form>
-    </div>
+    <main>
+      <div class="loading">Loading...</div>
+      <div class="no_js">
+        <form id="push_to_form" action="<%= export_citations_url %>" method="POST" class="external_form" enctype="application/x-www-form-urlencoded">
+          <h2>Push to <%= @cite_to %> </h2>
+          <fieldset>
+              <textarea type="hidden" name="from_format" id="from_format">csf</textarea>
+              <textarea type="hidden" name="to_format" id="to_format"><%= @cite_to.downcase %></textarea>
+              <textarea name="data" id="data"><%= @csf %></textarea>
+              <div class="section">
+                  <input id="submit" name="commit" type="submit" value="Push to "+ <%= @cite_to %> />
+              </div>
+          </fieldset>
+        </form>
+      </div>
+    </main>
   </body>
 </html>
