@@ -36,9 +36,9 @@ jobs:
       - <<: *set-cache
       - <<: *test
       - run:
-          name: Deploy into staging Heroku
+          name: Deploy to Heroku staging remote on master branch
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git master
 
   deploy-prod:
     <<: *docker-defaults
@@ -50,9 +50,9 @@ jobs:
       - <<: *set-cache
       - <<: *test
       - run:
-          name: Deploy into production Heroku
+          name: Deploy to Heroku production remote on master branch
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_PROD_APP_NAME.git
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_PROD_APP_NAME.git master
 
 workflows:
   version: 2
