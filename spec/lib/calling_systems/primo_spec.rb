@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CallingSystems::Primo do
 
-  let(:local_id) { 'ERESDSB000140704' }
+  let(:local_id) { 'nyu_aleph000455174' }
   let(:institution) { 'NYU' }
   let(:primo) { CallingSystems::Primo.new(local_id, institution) }
 
