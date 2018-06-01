@@ -1,0 +1,68 @@
+docker-defaults: &docker-defaults
+  docker:
+    - image: circleci/ruby:4
+  working_directory: ~/app
+
+get-cache: &get-cache
+  restore_cache:
+    keys:
+      - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      - gem-cache-{{ arch }}-{{ .Branch }}
+      - gem-cache
+
+set-cache: &set-cache
+  save_cache:
+    key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+    paths:
+      - vendor/bundle
+
+bundle: &bundle
+  run: bundle install --retry 3 --path vendor/bundle
+
+test: &test
+  run:
+    name: Test
+    command: bundle exec rspec
+
+version: 2
+jobs:
+  deploy-dev:
+    <<: *docker-defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - <<: *get-cache
+      - <<: *bundle
+      - <<: *set-cache
+      - <<: *test
+      - run:
+          name: Deploy into staging Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git
+
+  deploy-prod:
+    <<: *docker-defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - <<: *get-cache
+      - <<: *bundle
+      - <<: *set-cache
+      - <<: *test
+      - run:
+          name: Deploy into production Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_PROD_APP_NAME.git
+
+workflows:
+  version: 2
+  test-and-deploy:
+    jobs:
+      - deploy-dev:
+          filters:
+            branches:
+              ignore: master
+      - deploy-prod:
+          filters:
+            branches:
+              only: master
