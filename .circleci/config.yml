@@ -61,7 +61,9 @@ workflows:
       - deploy-dev:
           filters:
             branches:
-              ignore: master
+              ignore:
+                - master
+                - feature/integrate_citero
       - deploy-prod:
           filters:
             branches:
