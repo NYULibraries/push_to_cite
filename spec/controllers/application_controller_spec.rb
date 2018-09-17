@@ -25,7 +25,7 @@ describe 'ApplicationController' do
       get "/", params
     end
     context 'when all required parameters are present' do
-      it { is_expected.to include 'action="http://web1.bobst.nyu.edu' }
+      it { is_expected.to include 'A1  - Thelonious Monk Quintet' }
     end
     context 'when local_id is missing' do
       let(:local_id) { nil }

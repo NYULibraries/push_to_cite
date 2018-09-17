@@ -5,7 +5,7 @@ require 'rspec/its'
 
 ENV['RACK_ENV'] = 'test'
 
-Dir.glob('./app/{helpers,controllers}/*.rb').each { |file| require file }
+Dir.glob('./app/**/*.rb').each { |file| require file }
 Dir.glob('./spec/support/**/*.rb').each { |file| require file }
 
 module RSpecMixin

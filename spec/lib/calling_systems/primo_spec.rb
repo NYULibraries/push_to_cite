@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe CallingSystems::Primo do
 
+<<<<<<< HEAD
   let(:local_id) { 'nyu_aleph000455174' }
+=======
+  let(:local_id) { 'nyu_aleph004508721' }
+>>>>>>> Make existing specs pass
   let(:institution) { 'NYU' }
   let(:primo) { CallingSystems::Primo.new(local_id, institution) }
 
