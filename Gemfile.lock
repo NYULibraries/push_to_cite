@@ -87,20 +87,14 @@ DEPENDENCIES
   json
   pry
   rack-test
-  rake (~> 12.0)
-  rest-client (~> 2.0.2)
+  rake
+  rest-client
   rspec (~> 3)
   rspec-its (~> 1.2)
-  sinatra (~> 2.0.2)
-  unicorn (~> 5.3.0)
+  sinatra
+  unicorn
   vcr (~> 3)
   webmock (~> 3)
 
-   ruby 2.4.3p205
-
-BUNDLED WITH
-   1.16.1
-=======
 BUNDLED WITH
    1.16.3
->>>>>>> Develop citero locally
