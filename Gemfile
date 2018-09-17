@@ -6,7 +6,7 @@ gem 'unicorn'
 gem 'json'
 gem 'rest-client'
 # gem 'citero', github: 'NYULibraries/citero', branch: 'bug/pnx_json'
-gem 'citero', path: '/apps/citero'
+gem 'citero', path: './vendor/citero'
 
 group :test do
   gem 'rspec', '~> 3'
@@ -16,8 +16,4 @@ group :test do
   gem 'webmock', '~> 3'
 end
 
-group :test, :development do
-  gem 'pry'
-end
-
-ruby '2.4.3'
+gem 'pry'
