@@ -17,5 +17,5 @@ The only interface with this API is a `GET` request with the following params (*
 |----|-----|
 | `local_id` | the id of the document as it's identified in the calling system |
 | `calling_system` | the name of the calling system to call for getting more record data. currently only supports `primo` |
-| `cite_to` | the destination format or service. supports: `endnote`, `refworks`, `ris`, `bibtex`, `easybibpush` |
+| `cite_to` | the destination format or service. supports: `endnote`, `refworks`, `ris`, `bibtex` |
 | `institution` | the name of the institution in the calling system, e.g. `NYU` |

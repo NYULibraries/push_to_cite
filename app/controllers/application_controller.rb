@@ -62,8 +62,6 @@ class ApplicationController < Sinatra::Base
         PushFormats::Endnote.new
       when :refworks
         PushFormats::Refworks.new
-      when :easybib
-        PushFormats::Easybib.new
       when :ris
         PushFormats::Ris.new
       when :bibtex
