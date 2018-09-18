@@ -66,6 +66,8 @@ class ApplicationController < Sinatra::Base
         PushFormats::Ris.new
       when :bibtex
         PushFormats::Bibtex.new
+      when :openurl
+        PushFormats::Openurl.new
       else raise ArgumentError
     end
   end

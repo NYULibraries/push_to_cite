@@ -9,7 +9,7 @@ module PushFormats
       @action ||= ''
       @method ||= 'POST'
       @enctype ||= 'application/x-www-form-urlencoded'
-      @element_name ||= "data"
+      @element_name ||= 'data'
       @push_to_external ||= false
       @redirect ||= false
       @filename ||= 'export'
