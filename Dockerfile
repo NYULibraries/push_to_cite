@@ -4,7 +4,6 @@ ENV BUILD_PACKAGES build-base git linux-headers ruby-dev
 
 # Env
 ENV INSTALL_PATH /app
-ENV JEKYLL_ENV production
 ENV BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_BIN=/usr/local/bundle/bin \
     GEM_HOME=/usr/local/bundle
