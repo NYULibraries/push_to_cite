@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CallingSystems::Primo do
+describe CallingSystems::Primo, vcr: true do
 
   let(:local_id) { 'nyu_aleph004508721' }
   let(:institution) { 'NYU' }

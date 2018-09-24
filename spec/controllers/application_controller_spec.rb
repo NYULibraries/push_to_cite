@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ApplicationController' do
   def app() ApplicationController end
 
-  let(:local_id) { 'nyu_aleph004934609' }
+  let(:local_id) { 'nyu_aleph004508721' }
   let(:calling_system) { 'primo' }
   let(:cite_to) { 'ris' }
   let(:institution) { 'NYU' }
@@ -25,7 +25,7 @@ describe 'ApplicationController' do
       get "/", params
     end
     context 'when all required parameters are present' do
-      it { is_expected.to include 'A1  - Thelonious Monk Quintet' }
+      it { is_expected.to include 'Pinsker, Sanford' }
     end
     context 'when local_id is missing' do
       let(:local_id) { nil }
