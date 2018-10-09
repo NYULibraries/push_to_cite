@@ -4,7 +4,7 @@ describe PushFormats::Openurl do
 
   let(:bibtex) { PushFormats::Openurl.new }
 
-  describe '' do
+  describe '#initialize' do
     subject { bibtex }
     it { is_expected.to be_an_instance_of PushFormats::Openurl }
     its(:name) { is_expected.to eql 'Service' }

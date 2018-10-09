@@ -9,7 +9,6 @@ describe 'ApplicationController' do
   let(:institution) { 'NYU' }
   let(:params) do
     {
-    local_id: local_id,
     calling_system: calling_system,
     cite_to: cite_to,
     institution: institution
@@ -18,10 +17,16 @@ describe 'ApplicationController' do
   let(:missing_params_error_message) {
     'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.'
   }
+  let(:bad_data_message) {
+    'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.'
+  }
+  let(:include_id_message) {
+    'Make sure to include the following ID in your report:'
+  }
 
   describe "GET /:identifier", vcr: true do
     before do
-      get "/", params
+      get "/#{local_id}", params
     end
 
     describe 'error messages when required params are missing' do
@@ -44,6 +49,16 @@ describe 'ApplicationController' do
       end
     end
 
+    describe 'error message when local_id cannot be found in primo API' do
+      subject { last_response.body }
+      context 'when local_id returns an error from the API' do
+        let(:local_id) { 'nyu_aleph' }
+        it { is_expected.to include bad_data_message }
+        it { is_expected.to include include_id_message }
+        it { is_expected.to include local_id }
+      end
+    end
+
     describe 'responses when all required parameters are present' do
       subject { last_response }
       context 'and cite_to is RIS' do
@@ -60,7 +75,7 @@ describe 'ApplicationController' do
       end
       context 'and cite_to is RefWorks' do
         let(:cite_to) { 'refworks' }
-        its(:body) { is_expected.to include 'Pinsker, Sanford' }
+        its(:status) { is_expected.to eql 303 }
       end
       context 'and cite_to is OpenURL' do
         let(:cite_to) { 'openurl' }

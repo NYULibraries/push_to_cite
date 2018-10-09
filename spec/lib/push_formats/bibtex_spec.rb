@@ -4,7 +4,7 @@ describe PushFormats::Bibtex do
 
   let(:bibtex) { PushFormats::Bibtex.new }
 
-  describe '' do
+  describe '#initialize' do
     subject { bibtex }
     it { is_expected.to be_an_instance_of PushFormats::Bibtex }
     its(:name) { is_expected.to eql 'Service' }

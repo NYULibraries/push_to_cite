@@ -4,7 +4,7 @@ describe PushFormats::Endnote do
 
   let(:bibtex) { PushFormats::Endnote.new }
 
-  describe '' do
+  describe '#initialize' do
     subject { bibtex }
     it { is_expected.to be_an_instance_of PushFormats::Endnote }
     its(:name) { is_expected.to eql 'EndNote' }
