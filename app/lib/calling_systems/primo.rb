@@ -18,6 +18,10 @@ module CallingSystems
       @get_pnx_json ||= JSON.parse(get_record.body)
     end
 
+    def error?
+      get_pnx_json.to_s.match?(/^{"beacon.+"=>"\d+"}$/)
+    end
+
    private
 
     def get_record

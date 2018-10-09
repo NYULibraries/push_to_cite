@@ -9,11 +9,11 @@ class ApplicationController < Sinatra::Base
 
   @@whitelisted_calling_systems = %w(primo)
 
-  get('/') do
+  get('/:local_id') do
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
-    unless missing_params?
+    unless missing_params? || primo.error?
       # Map the citation and then decide what the course of acion is
       @csf = Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
       push_to_or_download
@@ -47,7 +47,6 @@ class ApplicationController < Sinatra::Base
   # Or render the form and post with Javascript, depending on how the
   # external system API expects it
   def push_to_external
-    # require 'pry';binding.pry
     if !params.has_key?(:callback) && @cite_to.redirect
       redirect @cite_to.action + callback, 303
     else
