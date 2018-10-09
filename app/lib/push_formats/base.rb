@@ -31,7 +31,7 @@ module PushFormats
     end
 
     def download?
-      !redirect_to_data? && !post_to_external? && !redirect_to_external?
+      !redirect_to_data? && !post_form_to_external? && !redirect_to_external?
     end
   end
 end

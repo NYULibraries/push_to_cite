@@ -8,7 +8,7 @@ module PushFormats
       super()
     end
 
-    def post_to_external?
+    def post_form_to_external?
       true
     end
 

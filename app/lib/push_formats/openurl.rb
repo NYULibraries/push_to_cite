@@ -1,7 +1,9 @@
 module PushFormats
   class Openurl < Base
 
-    @@link_resolver_base_url = ENV['LINK_RESOLVER_BASE_URL'] || "https://getit.library.nyu.edu/resolve"
+    def self.link_resolver_base_url
+      ENV['LINK_RESOLVER_BASE_URL'] || "https://getit.library.nyu.edu/resolve?"
+    end
 
     def initialize
       @to_format = 'openurl'

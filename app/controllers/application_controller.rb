@@ -47,11 +47,10 @@ class ApplicationController < Sinatra::Base
   # Or render the form and post with Javascript, depending on how the
   # external system API expects it
   def push_to_external
-    # require 'pry'; binding.pry
     if !params.has_key?(:callback) && @cite_to.redirect_to_external?
       redirect @cite_to.action + callback, 303
     elsif @cite_to.redirect_to_data?
-      redirect PushFormats::Openurl.link_resolver_base_url + @csf.to_openurl, 303
+      redirect PushFormats::Openurl.link_resolver_base_url + @csf, 303
     else
       erb :post_form
     end
