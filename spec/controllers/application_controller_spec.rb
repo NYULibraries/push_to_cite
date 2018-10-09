@@ -75,11 +75,12 @@ describe 'ApplicationController' do
       end
       context 'and cite_to is RefWorks' do
         let(:cite_to) { 'refworks' }
-        its(:status) { is_expected.to eql 303 }
+        its(:body) { is_expected.to include 'Pinsker, Sanford' }
       end
       context 'and cite_to is OpenURL' do
         let(:cite_to) { 'openurl' }
-        its(:body) { is_expected.to include 'Sanford' }
+        its(:status) { is_expected.to eql 303 }
+        its(:body) { is_expected.to eql '' }
       end
     end
   end

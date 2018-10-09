@@ -14,7 +14,7 @@ describe PushFormats::Refworks do
     its(:enctype) { is_expected.to eql 'application/x-www-form-urlencoded' }
     its(:element_name) { is_expected.to eql 'ImportData' }
     its(:push_to_external) { is_expected.to eql true }
-    its(:redirect) { is_expected.to eql true }
+    its(:redirect) { is_expected.to eql false }
     its(:filename) { is_expected.to eql 'export' }
     its(:to_format) { is_expected.to eql 'refworks_tagged' }
     its(:mimetype) { is_expected.to eql 'text/plain' }
