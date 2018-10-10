@@ -54,7 +54,7 @@ class ApplicationController < Sinatra::Base
       if primo.openurl
         redirect primo.openurl, 303
       else
-        raise ArgumentError, 'OpenURL is nil'
+        raise ArgumentError, "OpenURL is nil for record ID: #{@local_id}"
       end
     else
       erb :post_form, locals: { csf: csf }
@@ -74,7 +74,7 @@ class ApplicationController < Sinatra::Base
         PushFormats::Bibtex.new
       when :openurl
         PushFormats::Openurl.new
-      else raise ArgumentError, 'Invalid push format'
+      else raise ArgumentError, "Invalid push format: #{cite_to}"
     end
   end
 
