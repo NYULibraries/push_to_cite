@@ -14,8 +14,7 @@ class ApplicationController < Sinatra::Base
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
 
     unless missing_params? || primo.error?
-      # Map the citation and then decide what the course of acion is
-      @csf = Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
+      # Decide course of action based on cite_to value
       push_to_or_download
     else
       status 400
@@ -39,20 +38,26 @@ class ApplicationController < Sinatra::Base
   def download
     content_type @cite_to.mimetype
     attachment(@cite_to.filename)
-    @csf.force_encoding('UTF-8')
+    csf.force_encoding('UTF-8')
   end
 
-  # Push to external system either by redirecting with a callback url which
-  # sends the external system back to push_to_cite
-  # Or render the form and post with Javascript, depending on how the
-  # external system API expects it
+  # Push to external system depending on how the
+  # external system API expects it by 
+  # 1) Redirecting with a callback url which
+  # sends the external system back to push_to_cite;
+  # 2) Redirecting to the openurl data; or
+  # 3) Render the form and post with Javascript
   def push_to_external
     if !params.has_key?(:callback) && @cite_to.redirect_to_external?
       redirect @cite_to.action + callback, 303
     elsif @cite_to.to_sym === :openurl
-      redirect PushFormats::Openurl.link_resolver_base_url + @csf, 303
+      if primo.openurl
+        redirect primo.openurl, 303
+      else
+        raise ArgumentError, 'OpenURL is nil'
+      end
     else
-      erb :post_form
+      erb :post_form, locals: { csf: csf }
     end
   end
 
@@ -69,7 +74,7 @@ class ApplicationController < Sinatra::Base
         PushFormats::Bibtex.new
       when :openurl
         PushFormats::Openurl.new
-      else raise ArgumentError
+      else raise ArgumentError, 'Invalid push format'
     end
   end
 
@@ -87,6 +92,10 @@ class ApplicationController < Sinatra::Base
   # Make a call to Primo to get the PNX record
   def primo
     @primo ||= CallingSystems::Primo.new(@local_id, @institution)
+  end
+
+  def csf
+    @csf ||= Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
   end
 
 end

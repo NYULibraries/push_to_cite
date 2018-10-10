@@ -29,13 +29,8 @@ module PushFormats
       false
     end
 
-    # Redirecting this service to the data in the object
-    def redirect_to_data?
-      false
-    end
-
     def download?
-      !redirect_to_data? && !post_form_to_external? && !redirect_to_external?
+      !post_form_to_external? && !redirect_to_external? && self.to_sym != :openurl
     end
   end
 end

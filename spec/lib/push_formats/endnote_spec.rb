@@ -28,11 +28,6 @@ describe PushFormats::Endnote do
     it { is_expected.to be false }
   end
 
-  describe '#redirect_to_data?' do
-    subject { push_format.redirect_to_data? }
-    it { is_expected.to be false }
-  end
-
   describe '#download?' do
     subject { push_format.download? }
     it { is_expected.to be false }

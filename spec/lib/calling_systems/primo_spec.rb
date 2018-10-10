@@ -20,4 +20,9 @@ describe CallingSystems::Primo, vcr: true do
     end
   end
 
+  describe '#openurl' do
+    subject { primo.openurl }
+    it { is_expected.to include "rfr_id=info:sid/primo.exlibrisgroup.com:primo-#{local_id}" }
+  end
+
 end

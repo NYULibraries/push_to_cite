@@ -18,6 +18,10 @@ module CallingSystems
       @get_pnx_json ||= JSON.parse(get_record.body)
     end
 
+    def openurl
+      @openurl ||= get_pnx_json.dig("delivery", "link")&.find {|h| h["displayLabel"] == "lln10" }.dig("linkURL")
+    end
+
     def error?
       get_pnx_json.to_s.match?(/^{"beacon.+"=>"\d+"}$/)
     end

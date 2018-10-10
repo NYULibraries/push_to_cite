@@ -27,12 +27,7 @@ describe PushFormats::Openurl do
     subject { push_format.post_form_to_external? }
     it { is_expected.to be false }
   end
-
-  describe '#redirect_to_data?' do
-    subject { push_format.redirect_to_data? }
-    it { is_expected.to be true }
-  end
-
+  
   describe '#download?' do
     subject { push_format.download? }
     it { is_expected.to be false }
