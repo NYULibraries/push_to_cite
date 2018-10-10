@@ -1,24 +1,28 @@
-version: '3.2'
-services:
+version: '3.7'
+x-defaults: &defaults
+  tty: true
+  stdin_open: true
+  build:
+    context: .
+  image: pushtocite
 
+services:
   dev:
-    tty: true
-    stdin_open: true
-    build:
-      context: .
-    image: pushtocite
+    <<: *defaults
     ports:
       - "9292:9292"
+    environment:
+      UNICORN_PORT: "9292"
     volumes:
       - ./app:/app/app
-    environment:
-      RACK_ENV: development
-    command: ["bundle", "exec", "rackup", "-o", "0.0.0.0"]
+
+  test:
+    <<: *defaults
+    command: ["bundle", "exec", "rspec"]
 
   prod:
     build:
       context: .
-    image: pushtocite
-    ports:
-      - "9292:9292"
-    command: ["bundle", "exec", "unicorn", "-p", "9292", "-c", "./config/unicorn.rb"]
+      args:
+        BUNDLE_WITHOUT: "no_docker development test"
+    image: pushtocite_prod
