@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe PushFormats::Refworks do
 
-  let(:bibtex) { PushFormats::Refworks.new }
+  let(:push_format) { PushFormats::Refworks.new }
 
   describe '#initialize' do
-    subject { bibtex }
+    subject { push_format }
     it { is_expected.to be_an_instance_of PushFormats::Refworks }
     its(:name) { is_expected.to eql 'Service' }
     its(:id) { is_expected.to eql 'service' }
@@ -19,23 +19,28 @@ describe PushFormats::Refworks do
   end
 
   describe '#redirect_to_external?' do
-    subject { bibtex.redirect_to_external? }
+    subject { push_format.redirect_to_external? }
     it { is_expected.to be false }
   end
 
   describe '#post_form_to_external?' do
-    subject { bibtex.post_form_to_external? }
+    subject { push_format.post_form_to_external? }
     it { is_expected.to be true }
   end
 
   describe '#redirect_to_data?' do
-    subject { bibtex.redirect_to_data? }
+    subject { push_format.redirect_to_data? }
     it { is_expected.to be false }
   end
 
   describe '#download?' do
-    subject { bibtex.download? }
+    subject { push_format.download? }
     it { is_expected.to be false }
+  end
+
+  describe '#to_sym' do
+    subject { push_format.to_sym }
+    it { is_expected.to eql :refworks }
   end
 
 end

@@ -8,6 +8,7 @@ module PushFormats
       super()
     end
 
+    # Refworks has to post to the action
     def post_form_to_external?
       true
     end

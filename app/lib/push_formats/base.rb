@@ -14,6 +14,10 @@ module PushFormats
       @to_format ||= ''
       @mimetype ||= 'text/plain'
     end
+
+    def to_sym
+      self.class.name.split('::').last.downcase.to_sym
+    end
     
     # Redirect this service to an external citation manager
     def redirect_to_external?

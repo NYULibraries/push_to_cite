@@ -49,7 +49,7 @@ class ApplicationController < Sinatra::Base
   def push_to_external
     if !params.has_key?(:callback) && @cite_to.redirect_to_external?
       redirect @cite_to.action + callback, 303
-    elsif @cite_to.redirect_to_data?
+    elsif @cite_to.to_sym === :openurl
       redirect PushFormats::Openurl.link_resolver_base_url + @csf, 303
     else
       erb :post_form
