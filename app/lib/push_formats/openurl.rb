@@ -10,6 +10,7 @@ module PushFormats
       super()
     end
 
+    # OpenURL should redirect to the OpenURL generated from the CSF
     def redirect_to_data?
       true
     end

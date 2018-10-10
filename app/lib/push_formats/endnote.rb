@@ -9,6 +9,7 @@ module PushFormats
       super()
     end
 
+    # EndNote should redirect to action with a callback to a form with the RIS data
     def redirect_to_external?
       true
     end

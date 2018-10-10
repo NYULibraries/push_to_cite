@@ -13,11 +13,29 @@ describe PushFormats::Bibtex do
     its(:method) { is_expected.to eql 'POST' }
     its(:enctype) { is_expected.to eql 'application/x-www-form-urlencoded' }
     its(:element_name) { is_expected.to eql 'data' }
-    its(:push_to_external) { is_expected.to eql false }
-    its(:redirect) { is_expected.to eql false }
     its(:filename) { is_expected.to eql 'export.bib' }
     its(:to_format) { is_expected.to eql 'bibtex' }
     its(:mimetype) { is_expected.to eql 'application/x-bibtex' }
+  end
+
+  describe '#redirect_to_external?' do
+    subject { bibtex.redirect_to_external? }
+    it { is_expected.to be false }
+  end
+
+  describe '#post_form_to_external?' do
+    subject { bibtex.post_form_to_external? }
+    it { is_expected.to be false }
+  end
+
+  describe '#redirect_to_data?' do
+    subject { bibtex.redirect_to_data? }
+    it { is_expected.to be false }
+  end
+
+  describe '#download?' do
+    subject { bibtex.download? }
+    it { is_expected.to be true }
   end
 
 end
