@@ -9,6 +9,11 @@ class ApplicationController < Sinatra::Base
 
   @@whitelisted_calling_systems = %w(primo)
 
+  get('/healthcheck') do
+    content_type :json
+    return { success: true }.to_json
+  end
+
   get('/:local_id') do
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
@@ -42,7 +47,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # Push to external system depending on how the
-  # external system API expects it by 
+  # external system API expects it by
   # 1) Redirecting with a callback url which
   # sends the external system back to push_to_cite;
   # 2) Redirecting to the openurl data; or
