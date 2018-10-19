@@ -1,7 +1,9 @@
-PATH
-  remote: vendor/citero
+GIT
+  remote: https://github.com/NYULibraries/citero.git
+  revision: 57e853ed5d8125da584dff1ae4cf0c2c5fdd6e5d
+  branch: bug/fix_ris_error
   specs:
-    citero (1.0.0.beta)
+    citero (1.0.0)
       ox (~> 2.8.0)
 
 GEM

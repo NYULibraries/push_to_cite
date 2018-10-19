@@ -5,8 +5,8 @@ gem 'sinatra', '~> 2.0.3'
 gem 'unicorn', '~> 5.3.0'
 gem 'json', '~> 2.1.0'
 gem 'rest-client', '~> 2.0.2'
-# gem 'citero', github: 'NYULibraries/citero', branch: 'bug/pnx_json'
-gem 'citero', path: './vendor/citero'
+gem 'citero', github: 'NYULibraries/citero', branch: 'bug/fix_ris_error'
+# gem 'citero', path: './vendor/citero'
 
 group :test do
   gem 'rspec', '~> 3'
