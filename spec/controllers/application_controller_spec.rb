@@ -24,6 +24,13 @@ describe 'ApplicationController' do
     'Make sure to include the following ID in your report:'
   }
 
+  describe "GET /healthcheck" do
+    before { get "/healthcheck" }
+    subject { last_response }
+    its(:status) { is_expected.to eq 200 }
+    its(:body) { is_expected.to eq "{\"success\":true}" }
+  end
+
   describe "GET /:identifier", vcr: true do
     before do
       get "/#{local_id}", params

@@ -23,12 +23,12 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=CC0E0E4BC9ECB36B815C0358E6997B06; Path=/primo_library/libweb/;
+      - JSESSIONID=E4E7CED6BCE9445E4A113E2026202AD4; Path=/primo_library/libweb/;
         HttpOnly
       Cache-Control:
       - max-age=0
       Expires:
-      - Tue, 09 Oct 2018 19:40:52 GMT
+      - Fri, 19 Oct 2018 19:16:36 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -38,11 +38,11 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Date:
-      - Tue, 09 Oct 2018 19:40:52 GMT
+      - Fri, 19 Oct 2018 19:16:36 GMT
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAAAKpWSkpNTM7P8zcyUrJSMjRXqgUAAAD//wMAQfgFkhIAAAA=
+        H4sIAAAAAAAAAKpWSkpNTM7P8zcyUrJSMjdUqgUAAAD//wMAL9vjsxIAAAA=
     http_version: 
-  recorded_at: Tue, 09 Oct 2018 19:40:52 GMT
+  recorded_at: Fri, 19 Oct 2018 19:16:36 GMT
 recorded_with: VCR 3.0.3
