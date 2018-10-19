@@ -8,4 +8,3 @@
 
 echo "Starting up unicorn..."
 bundle exec unicorn -c config/unicorn/config.rb -E $1
-

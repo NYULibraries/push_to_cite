@@ -33,4 +33,6 @@ services:
         - pushtocite
       args:
         BUNDLE_WITHOUT: "no_docker development test"
+    ports:
+      - "8080:8080"
     image: pushtocite

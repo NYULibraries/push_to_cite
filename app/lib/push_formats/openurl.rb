@@ -1,3 +1,4 @@
+require_relative 'base'
 module PushFormats
   class Openurl < Base
 
