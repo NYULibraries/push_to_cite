@@ -1,6 +1,6 @@
 docker-defaults: &docker-defaults
   docker:
-    - image: circleci/ruby:2.4
+    - image: circleci/ruby:2.5
   working_directory: ~/app
 
 get-cache: &get-cache
