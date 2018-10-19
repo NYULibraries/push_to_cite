@@ -4,7 +4,12 @@ x-defaults: &defaults
   stdin_open: true
   build:
     context: .
-  image: pushtocite
+    args:
+      - AQUA_MICROSCANNER_TOKEN
+    cache_from:
+      - ruby:2.5.1-alpine
+      - pushtocite_test
+  image: pushtocite_test
 
 services:
   dev:
@@ -23,6 +28,9 @@ services:
   prod:
     build:
       context: .
+      cache_from:
+        - ruby:2.5.1-alpine
+        - pushtocite
       args:
         BUNDLE_WITHOUT: "no_docker development test"
-    image: pushtocite_prod
+    image: pushtocite
