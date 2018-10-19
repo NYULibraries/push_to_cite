@@ -4,7 +4,7 @@ module CallingSystems
   class Primo
 
     @@primo_base_url = ENV['PRIMO_BASE_URL'] || "http://bobcatdev.library.nyu.edu"
-    @@proxy_url = ENV['QUOTAGUARDSTATIC_URL']
+    @@proxy_url = ENV['PROXY_URL']
 
     attr_accessor :local_id, :institution
 
