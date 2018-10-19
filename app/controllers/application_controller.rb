@@ -32,6 +32,11 @@ class ApplicationController < Sinatra::Base
     erb :error
   end
 
+  not_found do
+    status 404
+    erb :error
+  end
+
   # Should we push to an external citation system or download the file?
   def push_to_or_download
     @cite_to.download? ? download : push_to_external
