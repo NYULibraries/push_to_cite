@@ -16,16 +16,16 @@
     <link rel="SHORTCUT ICON" href="https://cdn.library.nyu.edu/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/css/loader.css">
     <script type="text/javascript">
-        window.onload=function(){
-          document.getElementsByClassName("no_js")[0].style.visibility = 'hidden';
-          document.getElementById("submit").click();
-          document.getElementsByTagName( "html" )[0].className.replace( /loading/, "" );
-        }
+        // window.onload=function(){
+        //   document.getElementsByClassName("no_js")[0].style.visibility = 'hidden';
+        //   document.getElementById("submit").click();
+        //   document.getElementsByTagName( "html" )[0].className.replace( /loading/, "" );
+        // }
     </script>
   </head>
   <body>
     <main>
-      <div class="loading">Loading...</div>
+      <!-- <div class="loading">Loading...</div> -->
       <div class="no_js">
         <form id="<%= @cite_to.id %>" action="<%= @cite_to.action %>" method="<%= @cite_to.method %>" class="external_form" enctype="<%= @cite_to.enctype %>">
           <h2>Push to <%= @cite_to.name %> </h2>

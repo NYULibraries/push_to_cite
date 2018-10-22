@@ -6,6 +6,7 @@ module PushFormats
       @filename = 'export.bib'
       @to_format = 'bibtex'
       @mimetype = 'application/x-bibtex'
+      @name = 'BibTeX'
       super()
     end
 

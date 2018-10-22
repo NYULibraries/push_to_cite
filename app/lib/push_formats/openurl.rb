@@ -4,6 +4,7 @@ module PushFormats
 
     def initialize
       @to_format = 'openurl'
+      @name = 'OpenURL'
       super()
     end
 

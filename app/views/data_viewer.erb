@@ -12,7 +12,7 @@
     </script>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Citation Error | New York University Division of Libraries</title>
+    <title>Citation Data Viewer | New York University Division of Libraries</title>
     <link rel="stylesheet" type="text/css" href="/css/application.css">
     <link rel="SHORTCUT ICON" href="https://cdn.library.nyu.edu/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -24,30 +24,29 @@
     <nav>
       <ul class="breadcrumb">
         <li><a href="https://library.nyu.edu">NYU Libraries</a></li>
-        <li class="active">Sorry, there was an error</li>
+        <li class="active">Citation Data Viewer</li>
       </ul>
     </nav>
     <main>
       <div class="nyu-container">
         <div class="col-sm-12">
-          <h1>Sorry, there was an error</h1>
+          <h1>Citation Data Viewer</h1>
 
-          <% if missing_params? %>
-            <p>We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.</p>
-          <% else %>
-            <p>We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.</p>
-          <% end %>
+          <h2><%= @cite_to.name %></h2>
+          <textarea aria-label="Export data" class="raw-data"><%= csf %></textarea>
 
-          <% if @local_id && @local_id != '' %>
-          Make sure to include the following ID in your report:
-          <code>
-            <%= @local_id %>
-          </code>
-          <% end %>
+          <h2 class="list-header">View data for export to:</h2>
+          <ul class="export-types breadcrumb">
+            <li><a href="?cite_to=refworks&institution=<%= @institution %>&calling_system=<%= @calling_system %>">Refworks Tagged Format</a></li>
+            <li><a href="?cite_to=ris&institution=<%= @institution %>&calling_system=<%= @calling_system %>">RIS</a></li>
+            <li><a href="?cite_to=bibtex&institution=<%= @institution %>&calling_system=<%= @calling_system %>">BibTeX</a></li>
+            <li><a href="?cite_to=openurl&institution=<%= @institution %>&calling_system=<%= @calling_system %>">OpenURL</a></li>
+          </ul>
 
           <h2>Suggested Links</h2>
           <ul>
-            <li><a href="https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH" target="_blank">Report a Broken Link</a></li>
+            <li><a href="<%= primo_api_url %>?inst=<%= @institution %>" target="_blank">View the raw PNX JSON (IP restricted)</a></li>
+            <li><a href="https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH" target="_blank">Report a mapping or metadata problem</a></li>
             <li><a href="https://library.nyu.edu/ask/" target="_blank">Ask a Librarian</a></li>
           </ul>
         </div>

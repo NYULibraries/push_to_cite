@@ -14,6 +14,18 @@ class ApplicationController < Sinatra::Base
     return { success: true }.to_json
   end
 
+  get('/m/:local_id') do
+    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
+    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
+
+    unless missing_params? || primo.error?
+      erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
+    else
+      status 400
+      erb :error
+    end
+  end
+
   get('/:local_id') do
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])

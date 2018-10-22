@@ -26,10 +26,14 @@ module CallingSystems
       get_pnx_json.to_s.match?(/^{"beacon.+"=>"\d+"}$/)
     end
 
+    def pnx_json_api_endpoint
+      @pnx_json_api_endpoint ||= "#{@@primo_base_url}/primo_library/libweb/webservices/rest/v1/pnxs/L/#{local_id}"
+    end
+
    private
 
     def get_record
-      @get_record ||= RestClient.get("#{@@primo_base_url}/primo_library/libweb/webservices/rest/v1/pnxs/L/#{local_id}", {params: {inst: institution}})
+      @get_record ||= RestClient.get(pnx_json_api_endpoint, {params: {inst: institution}})
     end
   end
 end
