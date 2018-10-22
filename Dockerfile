@@ -29,6 +29,13 @@ RUN apk add --no-cache --update $BUILD_PACKAGES \
 
 COPY --chown=docker:docker . .
 
+# run microscanner
+ARG AQUA_MICROSCANNER_TOKEN
+RUN wget -O /microscanner https://get.aquasec.com/microscanner && \
+  chmod +x /microscanner && \
+  /microscanner ${AQUA_MICROSCANNER_TOKEN} && \
+rm -rf /microscanner
+
 USER docker
 EXPOSE 9292
 
