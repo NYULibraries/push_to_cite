@@ -1,54 +1,59 @@
 docker-defaults: &docker-defaults
   docker:
-    - image: circleci/ruby:2.5
+    - image: nyulibraries/circleci_docker:18.06.1-ce-git-compose-1.22.0
   working_directory: ~/app
 
-get-cache: &get-cache
-  restore_cache:
-    keys:
-      - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-      - gem-cache-{{ arch }}-{{ .Branch }}
-      - gem-cache
-
-set-cache: &set-cache
-  save_cache:
-    key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-    paths:
-      - vendor/bundle
-
-bundle: &bundle
-  run: bundle install --retry 3 --path vendor/bundle
+build_docker: &build_docker
+  run:
+    name: Build Docker
+    command: |
+      export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
+      docker-compose build
 
 test: &test
   run:
     name: Test
-    command: bundle exec rspec
+    command: |
+    export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
+      docker-compose run test
+
+push_docker: &push_docker
+  run:
+    name: Push Docker
+    command: |
+      export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
+      docker tag pushtocite nyulibraries/pushtocite:${BRANCH_NO_SLASH}
+      docker tag nyulibraries/pushtocite:${BRANCH_NO_SLASH} nyulibraries/pushtocite:${BRANCH_NO_SLASH}-${CIRCLE_SHA1}
+      docker login -u "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
+      docker push nyulibraries/pushtocite:${BRANCH_NO_SLASH}
+      docker push nyulibraries/pushtocite:${BRANCH_NO_SLASH}-${CIRCLE_SHA1}
 
 version: 2
 jobs:
+  test-and-build-image:
+    <<: *docker-defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - <<: *build_docker
+      - <<: *test
+      - <<: *push_docker
+
   deploy-dev:
     <<: *docker-defaults
     steps:
       - checkout
       - setup_remote_docker
-      - <<: *get-cache
-      - <<: *bundle
-      - <<: *set-cache
-      - <<: *test
       - run:
           name: Deploy to Heroku staging remote on master branch
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git master
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git ${CIRCLE_BRANCH}
 
   deploy-prod:
     <<: *docker-defaults
     steps:
       - checkout
       - setup_remote_docker
-      - <<: *get-cache
-      - <<: *bundle
-      - <<: *set-cache
-      - <<: *test
       - run:
           name: Deploy to Heroku production remote on master branch
           command: |
@@ -58,13 +63,17 @@ workflows:
   version: 2
   test-and-deploy:
     jobs:
+      - test-and-build-image
       - deploy-dev:
+          requires:
+            - test-and-build-image
           filters:
             branches:
               ignore:
                 - master
-                - feature/integrate_citero
       - deploy-prod:
+          requires:
+            - test-and-build-image
           filters:
             branches:
               only: master
