@@ -14,7 +14,7 @@ RUN addgroup -g 2000 $USER && \
 WORKDIR $INSTALL_PATH
 
 # Bundle install
-COPY vendor ./vendor
+#COPY vendor ./vendor
 COPY Gemfile Gemfile.lock ./
 ARG BUILD_PACKAGES="build-base git linux-headers ruby-dev"
 ARG BUNDLE_WITHOUT="no_docker"

@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/NYULibraries/citero.git
-  revision: 9f28d67989aa352a210d645c3b67df139fe4b60c
-  branch: bug/fix_ris_error
+  revision: 327dac7fb7ed431296cfeb1c54251b6d2935239a
+  tag: v1.0.1
   specs:
-    citero (1.0.0)
-      ox (~> 2.8.0)
+    citero (1.0.1)
+      ox (~> 2.8)
 
 GEM
   remote: https://rubygems.org/
@@ -28,7 +28,7 @@ GEM
     mime-types-data (3.2016.0521)
     mustermann (1.0.2)
     netrc (0.11.0)
-    ox (2.8.4)
+    ox (2.10.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
