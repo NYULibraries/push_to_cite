@@ -7,8 +7,8 @@ describe PushFormats::Refworks do
   describe '#initialize' do
     subject { push_format }
     it { is_expected.to be_an_instance_of PushFormats::Refworks }
-    its(:name) { is_expected.to eql 'Service' }
-    its(:id) { is_expected.to eql 'service' }
+    its(:name) { is_expected.to eql 'RefWorks' }
+    its(:id) { is_expected.to eql 'refworks' }
     its(:action) { is_expected.to eql 'http://www.refworks.com/express/ExpressImport.asp?vendor=Primo&filter=RefWorks%20Tagged%20Format&encoding=65001&url=' }
     its(:method) { is_expected.to eql 'POST' }
     its(:enctype) { is_expected.to eql 'application/x-www-form-urlencoded' }

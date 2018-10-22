@@ -7,8 +7,8 @@ describe PushFormats::Openurl do
   describe '#initialize' do
     subject { push_format }
     it { is_expected.to be_an_instance_of PushFormats::Openurl }
-    its(:name) { is_expected.to eql 'Service' }
-    its(:id) { is_expected.to eql 'service' }
+    its(:name) { is_expected.to eql 'OpenURL' }
+    its(:id) { is_expected.to eql 'openurl' }
     its(:action) { is_expected.to eql '' }
     its(:method) { is_expected.to eql 'POST' }
     its(:enctype) { is_expected.to eql 'application/x-www-form-urlencoded' }
@@ -27,7 +27,7 @@ describe PushFormats::Openurl do
     subject { push_format.post_form_to_external? }
     it { is_expected.to be false }
   end
-  
+
   describe '#download?' do
     subject { push_format.download? }
     it { is_expected.to be false }

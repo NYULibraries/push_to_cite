@@ -20,6 +20,22 @@ describe CallingSystems::Primo, vcr: true do
     end
   end
 
+  describe '#pnx_json_api_endpoint' do
+    subject { primo.pnx_json_api_endpoint }
+    it { is_expected.to include "/primo_library/libweb/webservices/rest/v1/pnxs/L/#{local_id}" }
+  end
+
+  describe '#error?' do
+    subject { primo.error? }
+    context 'when the aleph ID is valid' do
+      it { is_expected.to eql false }
+    end
+    context 'when the aleph ID is invalid' do
+      let(:local_id) { 'nyu_aleph' }
+      it { is_expected.to eql true }
+    end
+  end
+
   describe '#openurl' do
     subject { primo.openurl }
     it { is_expected.to include "rfr_id=info:sid/primo.exlibrisgroup.com:primo-#{local_id}" }

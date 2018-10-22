@@ -7,8 +7,8 @@ describe PushFormats::Ris do
   describe '#initialize' do
     subject { push_format }
     it { is_expected.to be_an_instance_of PushFormats::Ris }
-    its(:name) { is_expected.to eql 'Service' }
-    its(:id) { is_expected.to eql 'service' }
+    its(:name) { is_expected.to eql 'RIS' }
+    its(:id) { is_expected.to eql 'ris' }
     its(:action) { is_expected.to eql '' }
     its(:method) { is_expected.to eql 'POST' }
     its(:enctype) { is_expected.to eql 'application/x-www-form-urlencoded' }
@@ -38,6 +38,6 @@ describe PushFormats::Ris do
     it { is_expected.to eql :ris }
   end
 
-  
+
 
 end

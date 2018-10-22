@@ -31,6 +31,21 @@ describe 'ApplicationController' do
     its(:body) { is_expected.to eq "{\"success\":true}" }
   end
 
+  describe 'GET /m/:identifier', vcr: true do
+    before { get "/m/#{local_id}", params }
+    subject { last_response }
+    its(:status) { is_expected.to eq 200 }
+    its(:body) { is_expected.to include 'Refworks Tagged Format' }
+    its(:body) { is_expected.to include 'RIS' }
+    its(:body) { is_expected.to include 'BibTeX' }
+    its(:body) { is_expected.to include 'OpenURL' }
+    its(:body) { is_expected.to include '<textarea aria-label="Export data" class="raw-data">' }
+    its(:body) { is_expected.to include 'https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH' }
+    its(:body) { is_expected.to include 'Report a mapping or metadata problem' }
+    its(:body) { is_expected.to include "http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/#{local_id}?inst=#{institution}" }
+    its(:body) { is_expected.to include 'View the raw PNX JSON (IP restricted)' }
+  end
+
   describe "GET /:identifier", vcr: true do
     before do
       get "/#{local_id}", params
@@ -70,7 +85,9 @@ describe 'ApplicationController' do
       subject { last_response }
       context 'and cite_to is RIS' do
         let(:cite_to) { 'ris' }
+        its(:body) { is_expected.to include 'TY  - BOOK' }
         its(:body) { is_expected.to include 'Pinsker, Sanford' }
+        its(:body) { is_expected.to include 'ER' }
       end
       context 'and cite_to is EndNote' do
         let(:cite_to) { 'endnote' }
@@ -82,7 +99,9 @@ describe 'ApplicationController' do
       end
       context 'and cite_to is RefWorks' do
         let(:cite_to) { 'refworks' }
+        its(:body) { is_expected.to include 'RT Book, Whole' }
         its(:body) { is_expected.to include 'Pinsker, Sanford' }
+        its(:body) { is_expected.not_to include 'ER' }
       end
       context 'and cite_to is OpenURL' do
         let(:cite_to) { 'openurl' }
