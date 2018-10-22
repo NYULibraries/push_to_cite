@@ -20,6 +20,7 @@ services:
       UNICORN_PORT: "9292"
     volumes:
       - ./app:/app/app
+      - ./public:/app/public
 
   test:
     <<: *defaults

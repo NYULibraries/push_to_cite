@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/NYULibraries/citero.git
-  revision: 57e853ed5d8125da584dff1ae4cf0c2c5fdd6e5d
+  revision: 9f28d67989aa352a210d645c3b67df139fe4b60c
   branch: bug/fix_ris_error
   specs:
     citero (1.0.0)
