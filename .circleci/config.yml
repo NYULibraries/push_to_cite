@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Deploy to Heroku staging remote on master branch
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git ${CIRCLE_BRANCH}
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git master
 
   deploy-prod:
     <<: *docker-defaults
