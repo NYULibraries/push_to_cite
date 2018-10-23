@@ -39,6 +39,16 @@ jobs:
       - <<: *test
       - <<: *push_docker
 
+  deploy-k8s-dev:
+    docker:
+      - image: appropriate/curl
+    steps:
+      - run:
+          name: Deploy into staging via Jenkins
+          command: |
+            export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
+            curl -u $JENKINS_STAGE_USERNAME:$JENKINS_STAGE_API_KEY -X POST https://jenkinsapi-dev.library.nyu.edu/job/PushToCite%20Development%20Deploy/build/api --data-urlencode json="{\"parameter\": [{\"name\":\"TAG\", \"value\":\"${BRANCH_NO_SLASH}-${CIRCLE_SHA1}\"}]}"
+
   deploy-dev:
     <<: *docker-defaults
     steps:
@@ -64,6 +74,13 @@ workflows:
   test-and-deploy:
     jobs:
       - test-and-build-image
+      - deploy-k8s-dev:
+          requires:
+            - test-and-build-image
+          filters:
+            branches:
+              ignore:
+                - master
       - deploy-dev:
           requires:
             - test-and-build-image
