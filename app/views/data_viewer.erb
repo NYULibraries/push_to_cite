@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55461631-21"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-55461631-21');
+    </script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Citation Data Viewer | New York University Division of Libraries</title>
+    <link rel="stylesheet" type="text/css" href="/css/application.css">
+    <link rel="SHORTCUT ICON" href="https://cdn.library.nyu.edu/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  </head>
+  <body>
+    <header>
+      <span><a href="https://library.nyu.edu" target="_blank"><img src="https://cdn.library.nyu.edu/images/nyulibraries-logo.svg" alt="NYU Libraries" width="233" height="30"></a></span>
+    </header>
+    <nav>
+      <ul class="breadcrumb">
+        <li><a href="https://library.nyu.edu">NYU Libraries</a></li>
+        <li class="active">Citation Data Viewer</li>
+      </ul>
+    </nav>
+    <main>
+      <div class="nyu-container">
+        <div class="col-sm-12">
+          <h1>Citation Data Viewer</h1>
+
+          <h2><%= @cite_to.name %> for <code><%= @local_id %></code></h2>
+          <textarea aria-label="Export data" class="raw-data"><%= csf %></textarea>
+
+          <h2 class="list-header">View data for export to:</h2>
+          <ul class="export-types breadcrumb">
+            <li><a href="?cite_to=refworks&institution=<%= @institution %>&calling_system=<%= @calling_system %>">Refworks Tagged Format</a></li>
+            <li><a href="?cite_to=ris&institution=<%= @institution %>&calling_system=<%= @calling_system %>">RIS</a></li>
+            <li><a href="?cite_to=bibtex&institution=<%= @institution %>&calling_system=<%= @calling_system %>">BibTeX</a></li>
+            <li><a href="?cite_to=openurl&institution=<%= @institution %>&calling_system=<%= @calling_system %>">OpenURL</a></li>
+          </ul>
+
+          <h2>Suggested Links</h2>
+          <ul>
+            <li><a href="<%= primo_api_url %>?inst=<%= @institution %>" target="_blank">View the raw PNX JSON (IP restricted)</a></li>
+            <li><a href="https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH" target="_blank">Report a mapping or metadata problem</a></li>
+            <li><a href="https://library.nyu.edu/ask/" target="_blank">Ask a Librarian</a></li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+version: '3.7'
+x-defaults: &defaults
+  tty: true
+  stdin_open: true
+  build:
+    context: .
+    cache_from:
+      - ruby:2.5.1-alpine
+      - pushtocite_test
+  image: pushtocite_test
+
+services:
+  dev:
+    <<: *defaults
+    ports:
+      - "9292:9292"
+    environment:
+      UNICORN_PORT: "9292"
+    volumes:
+      - ./app:/app/app
+      - ./public:/app/public
+
+  test:
+    <<: *defaults
+    command: ["bundle", "exec", "rspec"]
+
+  prod:
+    build:
+      context: .
+      cache_from:
+        - ruby:2.5.1-alpine
+        - pushtocite
+      args:
+        BUNDLE_WITHOUT: "no_docker development test"
+        AQUA_MICROSCANNER_TOKEN:
+    ports:
+      - "8080:8080"
+    image: pushtocite

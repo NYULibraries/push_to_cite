@@ -1,0 +1,29 @@
+header {
+  margin: auto;
+  padding: 30px;
+  background-color: #57068C;
+}
+.nyu-container {
+  padding: 0 1em;
+}
+.breadcrumb {
+  padding-left: 30px !important;
+}
+a {
+  color: #2200CC !important;
+}
+.breadcrumb > .active {
+  color: #535353 !important;
+}
+h2.list-header {
+  font-size: 100% !important;
+}
+ul.export-types.breadcrumb {
+  padding-left: 0 !important;
+  background-color: white !important;
+}
+textarea.raw-data {
+  font-family: Courier, Courier New;
+  width: 100%;
+  min-height: 250px;
+}

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/NYULibraries/citero.git
+  revision: 74bbb13bf8631f5eb5a8298ab7a6a21ffe556f37
+  tag: v1.0.2
+  specs:
+    citero (1.0.2)
+      ox (~> 2.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,6 +28,7 @@ GEM
     mime-types-data (3.2016.0521)
     mustermann (1.0.2)
     netrc (0.11.0)
+    ox (2.10.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -76,20 +85,21 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  citero!
   json (~> 2.1.0)
-  pry
+  pry (~> 0.10.4)
   rack-test
-  rake (~> 12.0)
+  rake (~> 12.0.0)
   rest-client (~> 2.0.2)
   rspec (~> 3)
   rspec-its (~> 1.2)
-  sinatra (~> 2.0.2)
+  sinatra (~> 2.0.3)
   unicorn (~> 5.3.0)
   vcr (~> 3)
   webmock (~> 3)
 
 RUBY VERSION
-   ruby 2.4.4p296
+   ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.2
+   1.16.3

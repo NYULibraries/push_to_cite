@@ -5,7 +5,7 @@ require 'rspec/its'
 
 ENV['RACK_ENV'] = 'test'
 
-Dir.glob('./app/{helpers,controllers}/*.rb').each { |file| require file }
+Dir.glob('./app/**/*.rb').each { |file| require file }
 Dir.glob('./spec/support/**/*.rb').each { |file| require file }
 
 module RSpecMixin
@@ -14,4 +14,12 @@ end
 
 RSpec.configure do |config|
   config.include RSpecMixin
+end
+
+require 'vcr'
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.default_cassette_options = { record: :new_episodes }
 end
