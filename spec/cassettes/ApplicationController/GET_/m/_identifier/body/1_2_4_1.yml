@@ -45,4 +45,49 @@ http_interactions:
         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
     http_version: 
   recorded_at: Mon, 22 Oct 2018 19:34:31 GMT
+- request:
+    method: get
+    uri: http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/m/nyu_aleph004508721?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.5.0 x86_64) ruby/2.5.1p57
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=489D60436E283DA3AD2EA71B79692147; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Fri, 26 Oct 2018 15:35:00 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Fri, 26 Oct 2018 15:35:00 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAKpWSkpNTM7P8zcyUrJSMjRTqgUAAAD//wMAdpLHkxIAAAA=
+    http_version: 
+  recorded_at: Fri, 26 Oct 2018 15:35:00 GMT
 recorded_with: VCR 3.0.3

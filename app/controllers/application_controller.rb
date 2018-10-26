@@ -9,40 +9,34 @@ class ApplicationController < Sinatra::Base
 
   @@whitelisted_calling_systems = %w(primo)
 
+  before do
+    # Skip setting the instance vars if it's just the healthcheck
+    pass if %w[healthcheck].include? request.path_info.split('/')[1]
+    @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
+    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
+    raise 400 if missing_params? || primo.error?
+  end
+
+  # Healthcheck
   get('/healthcheck') do
     content_type :json
     return { success: true }.to_json
   end
 
+  # Citation Data Viewer
   get('/m/:local_id') do
-    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-
-    unless missing_params? || primo.error?
-      erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
-    else
-      status 400
-      erb :error
-    end
+    erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
+  # Redirect root to /:local_id route for backwards compatibility
   get('/') do
-    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-    redirect "/#{params[:local_id]}?institution=#{params[:institution]}&calling_system=#{params[:calling_system]}&cite_to=#{params[:cite_to]}"
+    redirect "/#{@local_id}?#{env['QUERY_STRING']}"
   end
 
+  # Main route
   get('/:local_id') do
-    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-
-    unless missing_params? || primo.error?
-      # Decide course of action based on cite_to value
-      push_to_or_download
-    else
-      status 400
-      erb :error
-    end
+    # Should we push to an external citation system or download the file?
+    @cite_to.download? ? download : push_to_external
   end
 
   error StandardError do
@@ -55,12 +49,7 @@ class ApplicationController < Sinatra::Base
     erb :error
   end
 
-  # Should we push to an external citation system or download the file?
-  def push_to_or_download
-    @cite_to.download? ? download : push_to_external
-  end
-
- private
+private
 
   # Downloads a file with the citation
   def download
