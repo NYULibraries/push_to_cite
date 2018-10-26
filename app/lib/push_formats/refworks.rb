@@ -3,7 +3,7 @@ module PushFormats
   class Refworks < Base
 
     def initialize
-      @action = 'http://www.refworks.com/express/ExpressImport.asp?vendor=Primo&filter=RefWorks%20Tagged%20Format&encoding=65001&url='
+      @action = 'https://www.refworks.com/express/ExpressImport.asp?vendor=Primo&filter=RefWorks%20Tagged%20Format&encoding=65001&url='
       @element_name = 'ImportData'
       @to_format = 'refworks_tagged'
       @name = 'RefWorks'
