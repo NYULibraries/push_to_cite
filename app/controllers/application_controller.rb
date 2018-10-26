@@ -26,6 +26,12 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get('/') do
+    @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
+    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
+    redirect "/#{params[:local_id]}?institution=#{params[:institution]}&calling_system=#{params[:calling_system]}&cite_to=#{params[:cite_to]}"
+  end
+
   get('/:local_id') do
     @institution, @local_id, @cite_to = params[:institution], params[:local_id], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
