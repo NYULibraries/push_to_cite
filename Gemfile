@@ -13,10 +13,12 @@ group :test do
   gem 'rack-test', require: 'rack/test'
   gem 'vcr', '~> 3'
   gem 'webmock', '~> 3'
+  gem 'coveralls', require: false
 end
 
 group :test, :development do
   gem 'pry', '~> 0.10.4'
+  gem 'rubocop', require: false
 end
 
 ruby '2.5.1'
