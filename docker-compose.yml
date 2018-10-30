@@ -23,6 +23,8 @@ services:
   test:
     <<: *defaults
     command: ["bundle", "exec", "rspec"]
+    environment:
+      CI:
 
   prod:
     build:
