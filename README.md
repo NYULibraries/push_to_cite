@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/NYULibraries/push_to_cite/badge.svg?branch=master)](https://coveralls.io/github/NYULibraries/push_to_cite?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d877057903a687d5ac36/maintainability)](https://codeclimate.com/github/NYULibraries/push_to_cite/maintainability)
 [![Anchore Image Overview](https://anchore.io/service/badges/image/bf11bfdf428b679b28ae99fa6be65de1071bfcb15ffdbc677b81d075fdc3607b)](https://anchore.io/image/dockerhub/nyulibraries%2Fpushtocite%3Amaster)
+[![Anchore Image Policy](https://anchore.io/service/badges/policy/bf11bfdf428b679b28ae99fa6be65de1071bfcb15ffdbc677b81d075fdc3607b?registry=dockerhub&repository=nyulibraries/pushtocite&tag=master)](https://anchore.io)
 
 This is a microservice that fetches the metadata for a given record from a calling system (i.e. Exlibris Primo) and forwards it on to a citation management service.
 
