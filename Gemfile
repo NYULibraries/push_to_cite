@@ -18,6 +18,7 @@ end
 
 group :test, :development do
   gem 'pry', '~> 0.10.4'
+  gem 'rubocop', require: false
 end
 
 ruby '2.5.1'
