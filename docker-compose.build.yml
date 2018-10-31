@@ -1,0 +1,34 @@
+version: '3.7'
+x-build-image: &build-image
+  build:
+    context: .
+    cache_from:
+      - pushtocite_test
+      - pushtocite
+      - nyulibraries/pushtocite
+      - nyulibraries/pushtocite:$BRANCH_NO_SLASH
+    args:
+      BUNDLE_WITHOUT: "no_docker development test"
+      AQUA_MICROSCANNER_TOKEN:
+  environment:
+    BRANCH_NO_SLASH:
+
+services:
+  pushtocite_1:
+    <<: *build-image
+    image: pushtocite
+  pushtocite_2:
+    <<: *build-image
+    image: "nyulibraries/pushtocite:latest"
+    depends_on:
+      - pushtocite_1
+  pushtocite_3:
+    <<: *build-image
+    image: "nyulibraries/pushtocite:${BRANCH_NO_SLASH}"
+    depends_on:
+      - pushtocite_2
+  pushtocite_4:
+    <<: *build-image
+    image: "nyulibraries/pushtocite:${BRANCH_NO_SLASH}-${CIRCLE_SHA1}"
+    depends_on:
+      - pushtocite_3

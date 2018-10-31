@@ -7,6 +7,9 @@ x-defaults: &defaults
     cache_from:
       - ruby:2.5.1-alpine
       - pushtocite_test
+      - pushtocite
+      - nyulibraries/pushtocite
+      - nyulibraries/pushtocite:$BRANCH_NO_SLASH
   image: pushtocite_test
 
 services:
@@ -16,25 +19,7 @@ services:
       - "9292:9292"
     environment:
       UNICORN_PORT: "9292"
-    volumes:
-      - ./app:/app/app
-      - ./public:/app/public
-
-  test:
-    <<: *defaults
-    command: ["bundle", "exec", "rspec"]
-    environment:
       CI:
-
-  prod:
-    build:
-      context: .
-      cache_from:
-        - ruby:2.5.1-alpine
-        - pushtocite
-      args:
-        BUNDLE_WITHOUT: "no_docker development test"
-        AQUA_MICROSCANNER_TOKEN:
-    ports:
-      - "8080:8080"
-    image: pushtocite
+    # volumes:
+      # - ./app:/app/app
+      # - ./public:/app/public

@@ -14,6 +14,7 @@ group :test do
   gem 'vcr', '~> 3'
   gem 'webmock', '~> 3'
   gem 'coveralls', require: false
+  gem 'rspec_junit_formatter', '~> 0.4.1'
 end
 
 group :test, :development do

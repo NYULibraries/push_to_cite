@@ -16,9 +16,10 @@ WORKDIR $INSTALL_PATH
 # Bundle install
 #COPY vendor ./vendor
 COPY Gemfile Gemfile.lock ./
-ARG BUILD_PACKAGES="build-base git linux-headers ruby-dev"
+ARG RUN_PACKAGES="git"
+ARG BUILD_PACKAGES="build-base linux-headers ruby-dev"
 ARG BUNDLE_WITHOUT="no_docker"
-RUN apk add --no-cache --update $BUILD_PACKAGES \
+RUN apk add --no-cache --update $BUILD_PACKAGES $RUN_PACKAGES \
   && gem install bundler -v '1.16.5' \
   && bundle config --local github.https true \
   && bundle install --without $BUNDLE_WITHOUT --jobs 20 --retry 5 \
