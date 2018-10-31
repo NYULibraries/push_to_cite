@@ -5,3 +5,11 @@ require 'sinatra/base'
 Dir.glob('./app/{helpers,controllers,lib}/**/*.rb').each { |file| require file }
 
 run ApplicationController
+
+require 'raven'
+
+Raven.configure do |config|
+  config.server = ENV['SENTRY_DSN']
+end
+
+use Raven::Rack

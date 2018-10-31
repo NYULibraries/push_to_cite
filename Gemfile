@@ -22,4 +22,6 @@ group :test, :development do
   gem 'rubocop', require: false
 end
 
+gem 'sentry-raven', '~> 2'
+
 ruby '2.5.1'
