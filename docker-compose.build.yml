@@ -9,6 +9,7 @@ x-build-image: &build-image
       - nyulibraries/pushtocite:$BRANCH_NO_SLASH
     args:
       BUNDLE_WITHOUT: "no_docker development test"
+      RUN_PACKAGES: ""
       AQUA_MICROSCANNER_TOKEN:
   environment:
     BRANCH_NO_SLASH:
