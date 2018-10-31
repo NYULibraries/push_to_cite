@@ -23,6 +23,7 @@ services:
     environment:
       UNICORN_PORT: "9292"
       CI:
+      COVERALLS_REPO_TOKEN:
     # volumes:
       # - ./app:/app/app
       # - ./public:/app/public
