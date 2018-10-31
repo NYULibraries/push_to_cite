@@ -10,6 +10,9 @@ x-defaults: &defaults
       - pushtocite
       - nyulibraries/pushtocite
       - nyulibraries/pushtocite:$BRANCH_NO_SLASH
+    args:
+      RUN_PACKAGES: "git"
+      ADDL_BUILD_PACKAGES: ""
   image: pushtocite_test
 
 services:
