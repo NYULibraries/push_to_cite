@@ -23,5 +23,3 @@ group :test, :development do
 end
 
 gem 'sentry-raven', '~> 2'
-
-ruby '2.5.1'

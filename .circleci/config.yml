@@ -63,7 +63,7 @@ jobs:
           path: ~/app/test-results
       - <<: *push_docker
 
-  deploy-k8s-dev:
+  deploy-dev:
     docker:
       - image: appropriate/curl
     steps:
@@ -73,7 +73,7 @@ jobs:
             export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
             curl -u $JENKINS_STAGE_USERNAME:$JENKINS_STAGE_API_KEY -X POST https://jenkinsapi-dev.library.nyu.edu/job/PushToCite%20Development%20Deploy/build/api --data-urlencode json="{\"parameter\": [{\"name\":\"TAG\", \"value\":\"${BRANCH_NO_SLASH}-${CIRCLE_SHA1}\"}]}"
 
-  deploy-k8s-prod:
+  deploy-prod:
     docker:
       - image: appropriate/curl
     steps:
@@ -83,45 +83,11 @@ jobs:
             export BRANCH_NO_SLASH=${CIRCLE_BRANCH//\//_}
             curl -u $JENKINS_PROD_USERNAME:$JENKINS_PROD_API_KEY -X POST https://jenkinsapi.library.nyu.edu/job/PushToCite%20Production%20Deploy/build/api --data-urlencode json="{\"parameter\": [{\"name\":\"TAG\", \"value\":\"${BRANCH_NO_SLASH}-${CIRCLE_SHA1}\"}]}"
 
-  deploy-dev:
-    <<: *docker-defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Deploy to Heroku staging remote on master branch
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git ${CIRCLE_BRANCH}:master
-
-  deploy-prod:
-    <<: *docker-defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Deploy to Heroku production remote on master branch
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_PROD_APP_NAME.git master
-
 workflows:
   version: 2
   test-and-deploy:
     jobs:
       - test-and-build-image
-      - deploy-k8s-dev:
-          requires:
-            - test-and-build-image
-          filters:
-            branches:
-              ignore:
-                - master
-      - deploy-k8s-prod:
-          requires:
-            - test-and-build-image
-          filters:
-            branches:
-              only:
-                - master
       - deploy-dev:
           requires:
             - test-and-build-image
@@ -134,4 +100,5 @@ workflows:
             - test-and-build-image
           filters:
             branches:
-              only: master
+              only:
+                - master
