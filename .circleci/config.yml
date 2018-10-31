@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Get Junit tests from stopped container
           when: always
-          command: docker cp pushtocite_test_run_1:/app/test-results .
+          command: docker cp pushtocite_dev_run_1:/app/test-results .
       - store_test_results:
           path: ~/app/test-results
       - store_artifacts:
