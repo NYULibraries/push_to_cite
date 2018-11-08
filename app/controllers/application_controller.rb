@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'citero'
+require 'prometheus/client'
 
 class ApplicationController < Sinatra::Base
   class PrimoRecordError < ArgumentError
@@ -12,6 +13,13 @@ class ApplicationController < Sinatra::Base
   @@whitelisted_calling_systems = %w(primo)
 
   before do
+    prometheus = Prometheus::Client.registry
+    @prometheus_errors_total =
+      Prometheus::Client::Counter.new(
+        :pushtocite_rrors_total,
+        'A counter of bad request errors'
+      )
+    prometheus.register(@prometheus_errors_total)
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
     @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
@@ -19,6 +27,8 @@ class ApplicationController < Sinatra::Base
     raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params?
     raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
   end
+
+
 
   # Healthcheck
   get('/healthcheck') do
@@ -38,6 +48,7 @@ class ApplicationController < Sinatra::Base
   end
 
   error ArgumentError do
+    @prometheus_errors_total.increment(kind: '400', env: request.env)
     status 400
     erb :error
   end
