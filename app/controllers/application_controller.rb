@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'citero'
 
 class ApplicationController < Sinatra::Base
+  class PrimoRecordError < ArgumentError
+  end
 
   set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
@@ -11,11 +13,11 @@ class ApplicationController < Sinatra::Base
 
   before do
     # Skip setting the instance vars if it's just the healthcheck
-    pass if %w[healthcheck].include? request.path_info.split('/')[1]
+    pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
     @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-    raise 400 if missing_params?
-    raise 422 if primo.error?
+    raise ArgumentError, 'Missing required params. All params required: local_id, institution, citee_to, calling_system' if missing_params?
+    raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
   end
 
   # Healthcheck
@@ -35,12 +37,12 @@ class ApplicationController < Sinatra::Base
     @cite_to.download? ? download : push_to_external
   end
 
-  error StandardError do
+  error ArgumentError do
     status 400
     erb :error
   end
 
-  error 422 do
+  error PrimoRecordError do
     status 422
     erb :error
   end
@@ -81,8 +83,8 @@ private
 
   # Whitelist available formats and forward to relevant classes
   def push_format(cite_to)
-    return if cite_to.nil?
-    case cite_to.to_sym
+    push_format = cite_to.to_sym unless cite_to.nil?
+    case push_format
       when :endnote
         PushFormats::Endnote.new
       when :refworks
