@@ -14,7 +14,8 @@ class ApplicationController < Sinatra::Base
     pass if %w[healthcheck].include? request.path_info.split('/')[1]
     @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-    raise 400 if missing_params? || primo.error?
+    raise 400 if missing_params?
+    raise 422 if primo.error?
   end
 
   # Healthcheck
@@ -28,11 +29,6 @@ class ApplicationController < Sinatra::Base
     erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
-  # Redirect root to /:local_id route for backwards compatibility
-  get('/') do
-    redirect "/#{@local_id}?#{env['QUERY_STRING']}"
-  end
-
   # Main route
   get('/:local_id') do
     # Should we push to an external citation system or download the file?
@@ -41,6 +37,11 @@ class ApplicationController < Sinatra::Base
 
   error StandardError do
     status 400
+    erb :error
+  end
+
+  error 422 do
+    status 422
     erb :error
   end
 
@@ -80,6 +81,7 @@ private
 
   # Whitelist available formats and forward to relevant classes
   def push_format(cite_to)
+    return if cite_to.nil?
     case cite_to.to_sym
       when :endnote
         PushFormats::Endnote.new
