@@ -16,7 +16,7 @@ class ApplicationController < Sinatra::Base
     pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
     @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
-    raise ArgumentError, 'Missing required params. All params required: local_id, institution, citee_to, calling_system' if missing_params?
+    raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params?
     raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
   end
 
@@ -95,7 +95,7 @@ private
         PushFormats::Bibtex.new
       when :openurl
         PushFormats::Openurl.new
-      else raise ArgumentError, "Invalid push format: #{cite_to}"
+      else raise ArgumentError, "Invalid or missing push format: #{cite_to}"
     end
   end
 
