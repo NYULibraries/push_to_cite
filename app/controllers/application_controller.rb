@@ -1,34 +1,33 @@
 require 'sinatra/base'
 require 'citero'
-require 'prometheus/client'
 
 class ApplicationController < Sinatra::Base
   class PrimoRecordError < ArgumentError
+  end
+
+  def initialize
+    super()
+    @metrics ||= Metrics.new
   end
 
   set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
   set :public_folder, File.expand_path('../../../public', __FILE__)
 
-  @@whitelisted_calling_systems = %w(primo)
+  helpers do
+    def whitelisted_calling_systems
+      @whitelisted_calling_systems ||= %w(primo)
+    end
+  end
 
   before do
-    prometheus = Prometheus::Client.registry
-    @prometheus_errors_total =
-      Prometheus::Client::Counter.new(
-        :pushtocite_rrors_total,
-        'A counter of bad request errors'
-      )
-    prometheus.register(@prometheus_errors_total)
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
     @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if @@whitelisted_calling_systems.include?(params[:calling_system])
+    @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
     raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params?
     raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
   end
-
-
 
   # Healthcheck
   get('/healthcheck') do
@@ -48,12 +47,13 @@ class ApplicationController < Sinatra::Base
   end
 
   error ArgumentError do
-    @prometheus_errors_total.increment(kind: '400', env: request.env)
+    @metrics.argument_errors.increment(kind: '400', env: request.env)
     status 400
     erb :error
   end
 
   error PrimoRecordError do
+    @metrics.primo_errors.increment(kind: '400', env: request.env)
     status 422
     erb :error
   end
