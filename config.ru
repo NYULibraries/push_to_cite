@@ -14,7 +14,7 @@ end
 # Run sentry
 use Raven::Rack
 # Run prometheus middleware to collect default metrics
-use Prometheus::Middleware::Collector, metrics_prefix: 'nyulibraries_web', counter_label_builder: -> (env, code) {
+use Prometheus::Middleware::Collector, metrics_prefix: ENV['PROMETHEUS_METRICS_PREFIX'], counter_label_builder: -> (env, code) {
   {
     code:         code,
     method:       env['REQUEST_METHOD'].downcase,
