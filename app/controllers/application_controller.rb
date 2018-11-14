@@ -5,11 +5,6 @@ class ApplicationController < Sinatra::Base
   class PrimoRecordError < ArgumentError
   end
 
-  def initialize
-    super()
-    @metrics ||= Metrics.new
-  end
-
   set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
   set :public_folder, File.expand_path('../../../public', __FILE__)
