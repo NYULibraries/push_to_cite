@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
   before do
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
-    @local_id, @institution, @cite_to = (params[:local_id] || request.path_info.split('/').last), params[:institution], push_format(params[:cite_to])
+    @local_id, @institution, @cite_to = valid_local_id, params[:institution], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
     raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params?
     raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
@@ -41,6 +41,11 @@ class ApplicationController < Sinatra::Base
     @cite_to.download? ? download : push_to_external
   end
 
+  post('/batch') do
+    content_type :json
+    return { records: @local_id }.to_json
+  end
+
   error ArgumentError do
     status 400
     erb :error
@@ -53,6 +58,11 @@ class ApplicationController < Sinatra::Base
 
   not_found do
     status 404
+    erb :error
+  end
+
+  error 500 do
+    status 500
     erb :error
   end
 
@@ -112,6 +122,10 @@ private
   # Require params
   def missing_params?
     !(@institution && @local_id && @cite_to && @calling_system)
+  end
+
+  def valid_local_id
+    (params[:local_id] || request.path_info.split('/').last)
   end
 
   # Make a call to Primo to get the PNX record

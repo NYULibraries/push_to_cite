@@ -22,8 +22,9 @@ module CallingSystems
       @openurl ||= get_pnx_json.dig("delivery", "link")&.find {|h| h["displayLabel"] == "lln10" }.dig("linkURL")
     end
 
+    # Reject Arrays & match against primo errors
     def error?
-      get_pnx_json.to_s.match?(/^{"beacon.+"=>"\d+"}$/)
+      local_id.is_a?(Array) || get_pnx_json.to_s.match?(/^{"beacon.+"=>"\d+"}$/)
     end
 
     def pnx_json_api_endpoint
