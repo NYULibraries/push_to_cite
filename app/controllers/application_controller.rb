@@ -47,13 +47,11 @@ class ApplicationController < Sinatra::Base
   end
 
   error ArgumentError do
-    @metrics.argument_errors.increment(kind: '400', querystring: request.env['QUERY_STRING'], path_info: request.env['PATH_INFO'])
     status 400
     erb :error
   end
 
   error PrimoRecordError do
-    @metrics.primo_errors.increment(kind: '422', querystring: request.env['QUERY_STRING'], path_info: request.env['PATH_INFO'])
     status 422
     erb :error
   end
