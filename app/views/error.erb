@@ -32,10 +32,10 @@
         <div class="col-sm-12">
           <h1>Sorry, there was an error</h1>
 
-          <% if missing_params? %>
-            <p>We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.</p>
+          <% if defined?(msg) %>
+            <p><%= msg %></p>
           <% else %>
-            <p>We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.</p>
+            <p>We're sorry! Something unexpectedly went wrong. Please use the link below to report this problem.</p>
           <% end %>
 
           <% if @local_id && @local_id != '' %>

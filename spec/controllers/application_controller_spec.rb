@@ -23,6 +23,9 @@ describe 'ApplicationController' do
   let(:include_id_message) {
     'Make sure to include the following ID in your report:'
   }
+  let(:not_found_error_message) {
+    "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again"
+  }
 
   describe "GET /healthcheck" do
     before { get "/healthcheck" }
@@ -55,7 +58,7 @@ describe 'ApplicationController' do
       subject { last_response.body }
       context 'when local_id is missing' do
         let(:local_id) { nil }
-        it { is_expected.to include missing_params_error_message }
+        it { is_expected.to include not_found_error_message }
       end
       context 'when cite_to is missing' do
         let(:cite_to) { nil }
@@ -108,6 +111,39 @@ describe 'ApplicationController' do
         its(:status) { is_expected.to eql 303 }
         its(:body) { is_expected.to eql '' }
       end
+    end
+  end
+
+  describe "POST /batch", vcr: true do
+    let(:cite_to) { 'ris'}
+    let(:local_ids) {
+      ['nyu_aleph005399773','nyu_aleph000802014']
+    }
+    let(:params) {
+      {
+        local_ids: local_ids,
+        calling_system: calling_system,
+        cite_to: cite_to,
+        institution: institution
+      }
+    }
+    before do
+      post "/batch", params
+    end
+    subject { last_response }
+
+    context 'when fewer than 10 ids are posted' do
+      its(:body) { is_expected.to include 'TY  - BOOK' }
+      its(:body) { is_expected.to include 'A1  - Gilroy, Beryl' }
+      its(:body) { is_expected.to include 'ER' }
+      its(:body) { is_expected.to include 'TY  - SOUND' }
+      its(:body) { is_expected.to include 'A1  - Thelonious Monk Quintet, performe' }
+    end
+    context 'when greater than 10 ids are posted' do
+      let(:local_ids) {
+        ['nyu_aleph005399773','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014','nyu_aleph000802014']
+      }
+      its(:body) { is_expected.to include 'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.' }
     end
   end
 end

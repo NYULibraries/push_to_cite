@@ -2,26 +2,29 @@ require 'sinatra/base'
 require 'citero'
 
 class ApplicationController < Sinatra::Base
-  class PrimoRecordError < ArgumentError
-  end
+  class PrimoRecordError < ArgumentError; end
+  class TooManyRecordsError < ArgumentError; end
+  class InvalidExportTypeError < ArgumentError; end
 
   set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
   set :public_folder, File.expand_path('../../../public', __FILE__)
 
-  helpers do
-    def whitelisted_calling_systems
-      @whitelisted_calling_systems ||= %w(primo)
-    end
+  before do
+    # Skip setting the instance vars if it's just the healthcheck
+    pass if %w[healthcheck batch].include?(request.path_info.split('/')[1]) || request.path_info == '/'
+    @local_id = (params[:local_id] || request.path_info.split('/').last)
+    set_vars_from_params
+    raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params? || !@local_id
+    raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
   end
 
   before do
-    # Skip setting the instance vars if it's just the healthcheck
-    pass if %w[healthcheck].include?(request.path_info.split('/')[1]) || request.path_info == '/'
-    @local_id, @institution, @cite_to = valid_local_id, params[:institution], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
-    raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params?
-    raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
+    pass unless %w[batch].include?(request.path_info.split('/')[1])
+    @batch_local_ids = params[:local_ids]
+    set_vars_from_params
+    raise ArgumentError, 'Missing required params. All params required: local_ids, institution, cite_to, calling_system' if missing_params? || !@batch_local_ids
+    raise InvalidExportTypeError, "Could not batch export to type: #{@cite_to}" unless whitelisted_batch_formats.include?(params[:cite_to])
   end
 
   # Healthcheck
@@ -37,28 +40,42 @@ class ApplicationController < Sinatra::Base
 
   # Main route
   get('/:local_id') do
-    # Should we push to an external citation system or download the file?
-    @cite_to.download? ? download : push_to_external
+    download_or_push
   end
 
   post('/batch') do
-    content_type :json
-    return { records: @local_id }.to_json
+    raise TooManyRecordsError, 'Too many records: You can only export up to ten records.' if @batch_local_ids.count > 10
+    @batch_records = []
+    @batch_local_ids.each do |id|
+      primo_record = CallingSystems::Primo.new(id, @institution)
+      @batch_records << Citero.map(primo_record.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
+    end
+    download_or_push
   end
 
   error ArgumentError do
     status 400
-    erb :error
+    erb :error, locals: { msg: 'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.' }
   end
 
   error PrimoRecordError do
     status 422
-    erb :error
+    erb :error, locals: { msg: 'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.' }
+  end
+
+  error InvalidExportTypeError do
+    status 400
+    erb :error, locals: { msg: 'You have requested an invalid export type. Please limit your request to one of the following cite_to values: ' + whitelisted_batch_formats.join(", ") }
+  end
+
+  error TooManyRecordsError do
+    status 400
+    erb :error, locals: { msg: 'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.' }
   end
 
   not_found do
     status 404
-    erb :error
+    erb :error, locals: { msg: "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again." }
   end
 
   error 500 do
@@ -67,6 +84,11 @@ class ApplicationController < Sinatra::Base
   end
 
 private
+
+  def download_or_push
+    # Should we push to an external citation system or download the file?
+    @cite_to.download? ? download : push_to_external
+  end
 
   # Downloads a file with the citation
   def download
@@ -121,11 +143,16 @@ private
 
   # Require params
   def missing_params?
-    !(@institution && @local_id && @cite_to && @calling_system)
+    !(@institution && @cite_to && @calling_system)
   end
 
-  def valid_local_id
-    (params[:local_id] || request.path_info.split('/').last)
+  def set_vars_from_params
+    @institution, @cite_to = params[:institution], push_format(params[:cite_to])
+    @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
+  end
+
+  def whitelisted_batch_formats
+    @whitelisted_batch_formats ||= [:bibtex, :ris, :refworks, :endnote].map(&:to_s)
   end
 
   # Make a call to Primo to get the PNX record
@@ -134,7 +161,11 @@ private
   end
 
   def csf
-    @csf ||= Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
+    @csf ||= (@batch_records.nil?) ? Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym) : @batch_records.join("\n")
+  end
+
+  def whitelisted_calling_systems
+    @whitelisted_calling_systems ||= %w(primo)
   end
 
 end
