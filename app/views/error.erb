@@ -38,7 +38,7 @@
             <p>We're sorry! Something unexpectedly went wrong. Please use the link below to report this problem.</p>
           <% end %>
 
-          <% if defined?(local_ids) %>
+          <% if defined?(local_ids) && !local_ids.nil? %>
           Make sure to include the following ID in your report:
           <code>
             <%= local_ids %>
