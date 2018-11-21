@@ -38,10 +38,10 @@
             <p>We're sorry! Something unexpectedly went wrong. Please use the link below to report this problem.</p>
           <% end %>
 
-          <% if @local_id && @local_id != '' %>
+          <% if defined?(local_ids) %>
           Make sure to include the following ID in your report:
           <code>
-            <%= @local_id %>
+            <%= local_ids %>
           </code>
           <% end %>
 

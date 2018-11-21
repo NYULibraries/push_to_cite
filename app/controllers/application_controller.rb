@@ -55,27 +55,27 @@ class ApplicationController < Sinatra::Base
 
   error ArgumentError do
     status 400
-    erb :error, locals: { msg: 'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.' }
+    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:argument_error] }
   end
 
   error PrimoRecordError do
     status 422
-    erb :error, locals: { msg: 'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.' }
+    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:primo_record_error] }
   end
 
   error InvalidExportTypeError do
     status 400
-    erb :error, locals: { msg: 'You have requested an invalid export type. Please limit your request to one of the following cite_to values: ' + whitelisted_batch_formats.join(", ") }
+    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:invalid_export_type_error] }
   end
 
   error TooManyRecordsError do
     status 400
-    erb :error, locals: { msg: 'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.' }
+    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:too_many_records_error] }
   end
 
   not_found do
     status 404
-    erb :error, locals: { msg: "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again." }
+    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:not_found_error] }
   end
 
   error 500 do
@@ -160,12 +160,26 @@ private
     @primo ||= CallingSystems::Primo.new(@local_id, @institution)
   end
 
+  def display_local_ids
+    @local_id || @batch_local_ids
+  end
+
   def csf
     @csf ||= (@batch_records.nil?) ? Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym) : @batch_records.join("\n")
   end
 
   def whitelisted_calling_systems
     @whitelisted_calling_systems ||= %w(primo)
+  end
+
+  def error_msgs
+    @error_msgs ||= {
+      argument_error: 'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.',
+      primo_record_error: 'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.',
+      invalid_export_type_error: 'You have requested an invalid export type. Please limit your request to one of the following cite_to values: ' + whitelisted_batch_formats.join(", "),
+      too_many_records_error: 'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.',
+      not_found_error: "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again."
+    }
   end
 
 end
