@@ -38,9 +38,19 @@ class ApplicationController < Sinatra::Base
     erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
+  get('/openurl/:local_id') do
+    content_type :json
+    return { openurl: primo.openurl }.to_json
+  end
+
   # Main route
   get('/:local_id') do
-    download_or_push
+    if params[:cite_to] === 'json'
+      content_type :json
+      return csf_object.to_json
+    else
+      download_or_push
+    end
   end
 
   post('/batch') do
@@ -131,6 +141,8 @@ private
         PushFormats::Bibtex.new
       when :openurl
         PushFormats::Openurl.new
+      when :json
+        {}
       else raise ArgumentError, "Invalid or missing push format: #{cite_to}"
     end
   end
@@ -165,7 +177,15 @@ private
   end
 
   def csf
-    @csf ||= (@batch_records.nil?) ? Citero.map(primo.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym) : @batch_records.join("\n")
+    @csf ||= (@batch_records.nil?) ? citero.send("to_#{@cite_to.to_format}".to_sym) : @batch_records.join("\n")
+  end
+
+  def csf_object
+    @csf_object ||= citero.csf.csf
+  end
+
+  def citero
+    @citero ||= Citero.map(primo.get_pnx_json).from_pnx_json
   end
 
   def whitelisted_calling_systems
