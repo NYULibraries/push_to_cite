@@ -66,11 +66,11 @@ describe 'ApplicationController' do
       end
       context 'when institution is missing' do
         let(:institution) { nil }
-        it { is_expected.to include missing_params_message }
+        it { is_expected.to include 'TY  - BOOK' }
       end
       context 'when calling_system is missing' do
         let(:calling_system) { nil }
-        it { is_expected.to include missing_params_message }
+        it { is_expected.to include 'TY  - BOOK' }
       end
     end
 

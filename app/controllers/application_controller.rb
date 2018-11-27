@@ -123,8 +123,16 @@ private
   end
 
   def set_vars_from_params
-    @institution, @cite_to = params[:institution], push_format(params[:cite_to])
-    @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
+    @institution, @cite_to = (params[:institution] || default_institution), push_format(params[:cite_to])
+    @calling_system = (whitelist_calling_system(params[:calling_system]) || default_calling_system)
+  end
+
+  def default_institution
+    ENV['DEFAULT_INSTITUTION'] || 'NYU'
+  end
+
+  def default_calling_system
+    ENV['DEFAULT_CALLING_SYSTEM'] || 'primo'
   end
 
   # Make a call to Primo to get the PNX record
@@ -150,6 +158,10 @@ private
 
   def citero(primo_object)
     Citero.map(primo_object.get_pnx_json).from_pnx_json
+  end
+
+  def whitelist_calling_system(calling_system)
+    calling_system if whitelisted_calling_systems.include?(calling_system)
   end
 
   def whitelisted_calling_systems
