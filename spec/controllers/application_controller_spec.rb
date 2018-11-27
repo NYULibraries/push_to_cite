@@ -114,7 +114,7 @@ describe 'ApplicationController' do
     end
   end
 
-  describe 'POST /', vcr: true do
+  describe 'GET /', vcr: true do
     let(:cite_to) { 'ris'}
     let(:external_id_array) {
       ['nyu_aleph005399773','nyu_aleph000802014']
@@ -128,7 +128,7 @@ describe 'ApplicationController' do
       }
     }
     before do
-      post '/', params
+      get '/', params
     end
     subject { last_response }
 

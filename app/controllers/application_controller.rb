@@ -14,6 +14,7 @@ class ApplicationController < Sinatra::Base
     halt 400, error_messages[:argument_error] if !set_vars_from_params
     halt 422, error_messages[:primo_record_error] if primo.error? && !@external_id.is_a?(Array)
     halt 400, error_messages[:too_many_records_error] if @external_id.is_a?(Array) && @external_id.count > 10
+    @records = gather_citero_records
   end
 
   # Healthcheck
@@ -24,7 +25,8 @@ class ApplicationController < Sinatra::Base
 
   # Citation Data Viewer
   get('/m/:external_id') do
-    erb :data_viewer, locals: { csf: csf_string, primo_api_url: primo.pnx_json_api_endpoint }
+
+    erb :data_viewer, locals: { csf: citations, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
   get('/openurl/:external_id') do
@@ -35,18 +37,17 @@ class ApplicationController < Sinatra::Base
 
   # Main route
   get('/:external_id') do
+    download_or_push
+  end
+
+  get('/') do
     if params[:cite_to] === 'json'
       pass unless request.accept? 'application/json'
       content_type :json
-      return csf_object.to_json
+      return @records.map { |r| r.csf_object }.to_json
     else
       download_or_push
     end
-  end
-
-  post('/') do
-    @records = gather_citero_records
-    download_or_push
   end
 
   error 400..500 do
@@ -68,7 +69,7 @@ private
   def download
     content_type @cite_to.mimetype
     attachment(@cite_to.filename)
-    csf_string.force_encoding('UTF-8')
+    citations.force_encoding('UTF-8')
   end
 
   # Push to external system depending on how the
@@ -87,7 +88,7 @@ private
         halt 422, error_messages[:openurl_not_found_error]
       end
     else
-      erb :post_form, locals: { csf: csf_string }
+      erb :post_form, locals: { csf: citations }
     end
   end
 
@@ -117,11 +118,6 @@ private
     @callback ||= ERB::Util.url_encode("#{request.url}&callback")
   end
 
-  # Require params
-  def missing_params?
-    !(@institution && @cite_to && @calling_system)
-  end
-
   def set_vars_from_params
     @institution, @cite_to = (params[:institution] || default_institution), push_format(params[:cite_to])
     @calling_system = (whitelist_calling_system(params[:calling_system]) || default_calling_system)
@@ -136,29 +132,16 @@ private
     ENV['DEFAULT_CALLING_SYSTEM'] || 'primo'
   end
 
-  # Make a call to Primo to get the PNX record
-  def primo(id = @external_id, institution = @institution)
-    CallingSystems::Primo.new(id, institution)
-  end
-
   def gather_citero_records(records = [])
-    [@external_id].flatten.each do |id|
-      record = primo(id)
-      records << citero(record).send("to_#{@cite_to.to_format}".to_sym)
+    [@external_id].flatten.each_with_index do |external_id, idx|
+      record = Citero.map(CallingSystems::Primo.new(external_id, @institution).get_pnx_json).from_pnx_json
+      records << OpenStruct.new(id: idx, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
     end
     records
   end
 
-  def csf_string
-    [gather_citero_records].flatten.join("\n")
-  end
-
-  def csf_object
-    citero.csf.csf
-  end
-
-  def citero(primo_object)
-    Citero.map(primo_object.get_pnx_json).from_pnx_json
+  def citations
+    [gather_citero_records.map { |r| r.citation }].flatten.join("\n")
   end
 
   def whitelist_calling_system(calling_system)
@@ -167,6 +150,10 @@ private
 
   def whitelisted_calling_systems
     @whitelisted_calling_systems ||= %w(primo)
+  end
+
+  def primo(id = @external_id, institution = @institution)
+    CallingSystems::Primo.new(id, institution)
   end
 
   def error_messages
