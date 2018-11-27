@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ApplicationController' do
   def app() ApplicationController end
 
-  let(:local_id) { 'nyu_aleph004508721' }
+  let(:external_id) { 'nyu_aleph004508721' }
   let(:calling_system) { 'primo' }
   let(:cite_to) { 'ris' }
   let(:institution) { 'NYU' }
@@ -38,7 +38,7 @@ describe 'ApplicationController' do
   end
 
   describe 'GET /m/:identifier', vcr: true do
-    before { get "/m/#{local_id}", params }
+    before { get "/m/#{external_id}", params }
     subject { last_response }
     its(:status) { is_expected.to eq 200 }
     its(:body) { is_expected.to include 'Refworks Tagged Format' }
@@ -48,19 +48,19 @@ describe 'ApplicationController' do
     its(:body) { is_expected.to include '<textarea aria-label="Export data" class="raw-data">' }
     its(:body) { is_expected.to include 'https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH' }
     its(:body) { is_expected.to include 'Report a mapping or metadata problem' }
-    its(:body) { is_expected.to include "http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/#{local_id}?inst=#{institution}" }
+    its(:body) { is_expected.to include "http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/#{external_id}?inst=#{institution}" }
     its(:body) { is_expected.to include 'View the raw PNX JSON (IP restricted)' }
   end
 
   describe "GET /:identifier", vcr: true do
     before do
-      get "/#{local_id}", params
+      get "/#{external_id}", params
     end
 
     describe 'error messages when required params are missing' do
       subject { last_response.body }
-      context 'when local_id is missing' do
-        let(:local_id) { nil }
+      context 'when external_id is missing' do
+        let(:external_id) { nil }
         it { is_expected.to include not_found_message }
       end
       context 'when cite_to is missing' do
@@ -77,13 +77,13 @@ describe 'ApplicationController' do
       end
     end
 
-    describe 'error message when local_id cannot be found in primo API' do
+    describe 'error message when external_id cannot be found in primo API' do
       subject { last_response.body }
-      context 'when local_id returns an error from the API' do
-        let(:local_id) { 'nyu_aleph' }
+      context 'when external_id returns an error from the API' do
+        let(:external_id) { 'nyu_aleph' }
         it { is_expected.to include bad_data_message }
         it { is_expected.to include include_id_message }
-        it { is_expected.to include local_id }
+        it { is_expected.to include external_id }
       end
     end
 
@@ -119,12 +119,12 @@ describe 'ApplicationController' do
 
   describe "POST /batch", vcr: true do
     let(:cite_to) { 'ris'}
-    let(:local_ids) {
+    let(:external_ids) {
       ['nyu_aleph005399773','nyu_aleph000802014']
     }
     let(:params) {
       {
-        local_ids: local_ids,
+        external_ids: external_ids,
         calling_system: calling_system,
         cite_to: cite_to,
         institution: institution
@@ -143,16 +143,16 @@ describe 'ApplicationController' do
       its(:body) { is_expected.to include 'A1  - Thelonious Monk Quintet, performe' }
     end
     context 'when greater than 10 ids are posted' do
-      let(:local_ids) {
+      let(:external_ids) {
         ['1','2','3','4','5','6','7','8','9','10','11']
       }
       its(:body) { is_expected.to include too_many_records_message }
     end
 
-    context 'when local_ids is missing' do
+    context 'when external_ids is missing' do
       let(:params) {
         {
-          local_id: local_id,
+          external_id: external_id,
           calling_system: calling_system,
           cite_to: cite_to,
           institution: institution
@@ -161,17 +161,17 @@ describe 'ApplicationController' do
       its(:body) { is_expected.to include missing_params_message }
     end
 
-    context 'when local_id and local_ids are present' do
+    context 'when external_id and external_ids are present' do
       let(:params) {
         {
-          local_ids: local_ids,
-          local_id: local_id,
+          external_ids: external_ids,
+          external_id: external_id,
           calling_system: calling_system,
           cite_to: cite_to,
           institution: institution
         }
       }
-      it 'should not include the record from the local_id param' do
+      it 'should not include the record from the external_id param' do
         expect(subject.body).to_not include 'Pinsker, Sanford'
       end
     end

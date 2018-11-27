@@ -13,18 +13,18 @@ class ApplicationController < Sinatra::Base
   before do
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck batch].include?(request.path_info.split('/')[1]) || request.path_info == '/'
-    @local_id = (params[:local_id] || request.path_info.split('/').last)
+    @external_id = (params[:external_id] || request.path_info.split('/').last)
     set_vars_from_params
-    halt 400, error_messages[:argument_error] if missing_params? || !@local_id
+    halt 400, error_messages[:argument_error] if missing_params? || !@external_id
     halt 422, error_messages[:primo_record_error] if primo.error?
   end
 
   before do
     pass unless %w[batch].include?(request.path_info.split('/')[1])
-    @local_id = params[:local_ids]
+    @external_id = params[:external_ids]
     set_vars_from_params
-    halt 400, error_messages[:argument_error] if missing_params? || !@local_id
-    halt 400, error_messages[:too_many_records_error] if @local_id.count > 10
+    halt 400, error_messages[:argument_error] if missing_params? || !@external_id
+    halt 400, error_messages[:too_many_records_error] if @external_id.count > 10
   end
 
   # Healthcheck
@@ -34,18 +34,18 @@ class ApplicationController < Sinatra::Base
   end
 
   # Citation Data Viewer
-  get('/m/:local_id') do
+  get('/m/:external_id') do
     erb :data_viewer, locals: { csf: csf_string, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
-  get('/openurl/:local_id') do
+  get('/openurl/:external_id') do
     pass unless request.accept? 'application/json'
     content_type :json
     return { openurl: primo.openurl }.to_json
   end
 
   # Main route
-  get('/:local_id') do
+  get('/:external_id') do
     if params[:cite_to] === 'json'
       pass unless request.accept? 'application/json'
       content_type :json
@@ -62,9 +62,9 @@ class ApplicationController < Sinatra::Base
 
   error 400..500 do
     unless response.status === 404
-      erb :error, locals: { local_ids: display_local_ids, msg: response.body }
+      erb :error, locals: { external_ids: display_external_ids, msg: response.body }
     else
-      erb :error, locals: { local_ids: display_local_ids, msg: error_messages[:not_found_error] }
+      erb :error, locals: { external_ids: display_external_ids, msg: error_messages[:not_found_error] }
     end
   end
 
@@ -139,16 +139,16 @@ private
   end
 
   # Make a call to Primo to get the PNX record
-  def primo(id = @local_id, institution = @institution)
+  def primo(id = @external_id, institution = @institution)
     CallingSystems::Primo.new(id, institution)
   end
 
-  def display_local_ids
-    @local_id
+  def display_external_ids
+    @external_id
   end
 
   def gather_citero_records(records = [])
-    [@local_id].flatten.each do |id|
+    [@external_id].flatten.each do |id|
       record = primo(id)
       records << citero(record).send("to_#{@cite_to.to_format}".to_sym)
     end
