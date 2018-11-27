@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'citero'
-require 'pry'
 
 class ApplicationController < Sinatra::Base
   class PrimoRecordError < ArgumentError; end
