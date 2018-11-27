@@ -15,7 +15,7 @@ describe 'ApplicationController' do
     }
   end
   let(:missing_params_message) {
-    'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.'
+    'We could not export or download this citation because of missing or incorrect data in the parameters. Please use the link below to report this problem.'
   }
   let(:bad_data_message) {
     'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.'

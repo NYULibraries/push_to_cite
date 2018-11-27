@@ -16,16 +16,16 @@ class ApplicationController < Sinatra::Base
     pass if %w[healthcheck batch].include?(request.path_info.split('/')[1]) || request.path_info == '/'
     @local_id = (params[:local_id] || request.path_info.split('/').last)
     set_vars_from_params
-    raise ArgumentError, 'Missing required params. All params required: local_id, institution, cite_to, calling_system' if missing_params? || !@local_id
-    raise PrimoRecordError, "Could not find Primo record with id: #{@local_id}" if primo.error?
+    halt 400, error_messages[:argument_error] if missing_params? || !@local_id
+    halt 422, error_messages[:primo_record_error] if primo.error?
   end
 
   before do
     pass unless %w[batch].include?(request.path_info.split('/')[1])
     @local_id = params[:local_ids]
     set_vars_from_params
-    raise ArgumentError, 'Missing required params. All params required: local_ids, institution, cite_to, calling_system' if missing_params? || !@local_id
-    raise InvalidExportTypeError, "Could not batch export to type: #{@cite_to}" unless whitelisted_batch_formats.include?(params[:cite_to])
+    halt 400, error_messages[:argument_error] if missing_params? || !@local_id
+    halt 400, error_messages[:too_many_records_error] if @local_id.count > 10
   end
 
   # Healthcheck
@@ -57,39 +57,16 @@ class ApplicationController < Sinatra::Base
   end
 
   post('/batch') do
-    raise TooManyRecordsError, 'Too many records: You can only export up to ten records.' if @local_id.count > 10
     @records = gather_citero_records
     download_or_push
   end
 
-  error ArgumentError do
-    status 400
-    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:argument_error] }
-  end
-
-  error PrimoRecordError do
-    status 422
-    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:primo_record_error] }
-  end
-
-  error InvalidExportTypeError do
-    status 400
-    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:invalid_export_type_error] }
-  end
-
-  error TooManyRecordsError do
-    status 400
-    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:too_many_records_error] }
-  end
-
-  not_found do
-    status 404
-    erb :error, locals: { local_ids: display_local_ids, msg: error_msgs[:not_found_error] }
-  end
-
-  error 500 do
-    status 500
-    erb :error
+  error 400..500 do
+    unless response.status === 404
+      erb :error, locals: { local_ids: display_local_ids, msg: response.body }
+    else
+      erb :error, locals: { local_ids: display_local_ids, msg: error_messages[:not_found_error] }
+    end
   end
 
 private
@@ -119,7 +96,7 @@ private
       if primo.openurl
         redirect primo.openurl, 303
       else
-        raise ArgumentError, "OpenURL is nil for record ID: #{@local_id}"
+        halt 422, error_messages[:openurl_not_found_error]
       end
     else
       erb :post_form, locals: { csf: csf_string }
@@ -142,7 +119,7 @@ private
         PushFormats::Openurl.new
       when :json
         {}
-      else raise ArgumentError, "Invalid or missing push format: #{cite_to}"
+      else halt 400, error_messages[:argument_error]
     end
   end
 
@@ -160,10 +137,6 @@ private
   def set_vars_from_params
     @institution, @cite_to = params[:institution], push_format(params[:cite_to])
     @calling_system = params[:calling_system] if whitelisted_calling_systems.include?(params[:calling_system])
-  end
-
-  def whitelisted_batch_formats
-    @whitelisted_batch_formats ||= [:bibtex, :ris, :refworks, :endnote].map(&:to_s)
   end
 
   # Make a call to Primo to get the PNX record
@@ -199,13 +172,13 @@ private
     @whitelisted_calling_systems ||= %w(primo)
   end
 
-  def error_msgs
-    @error_msgs ||= {
-      argument_error: 'We could not export or download this citation because of missing data in the parameters. Please use the link below to report this problem.',
+  def error_messages
+    @error_messages ||= {
+      argument_error: 'We could not export or download this citation because of missing or incorrect data in the parameters. Please use the link below to report this problem.',
       primo_record_error: 'We could not export or download this citation because of missing or incomplete data in the catalog record. Please use the link below to report this problem.',
-      invalid_export_type_error: 'You have requested an invalid export type. Please limit your request to one of the following cite_to values: ' + whitelisted_batch_formats.join(", "),
       too_many_records_error: 'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.',
-      not_found_error: "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again."
+      not_found_error: "We're sorry! We can't locate that page. It may just be a typo. Double check the resource's spelling and try again.",
+      openurl_not_found_error: "We can't find an associated OpenURL for this record. Please use the link below to report this problem."
     }
   end
 
