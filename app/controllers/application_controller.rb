@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'citero'
+require 'pry'
 
 class ApplicationController < Sinatra::Base
   class PrimoRecordError < ArgumentError; end
@@ -21,9 +22,9 @@ class ApplicationController < Sinatra::Base
 
   before do
     pass unless %w[batch].include?(request.path_info.split('/')[1])
-    @batch_local_ids = params[:local_ids]
+    @local_id = params[:local_ids]
     set_vars_from_params
-    raise ArgumentError, 'Missing required params. All params required: local_ids, institution, cite_to, calling_system' if missing_params? || !@batch_local_ids
+    raise ArgumentError, 'Missing required params. All params required: local_ids, institution, cite_to, calling_system' if missing_params? || !@local_id
     raise InvalidExportTypeError, "Could not batch export to type: #{@cite_to}" unless whitelisted_batch_formats.include?(params[:cite_to])
   end
 
@@ -35,10 +36,11 @@ class ApplicationController < Sinatra::Base
 
   # Citation Data Viewer
   get('/m/:local_id') do
-    erb :data_viewer, locals: { csf: csf, primo_api_url: primo.pnx_json_api_endpoint }
+    erb :data_viewer, locals: { csf: csf_string, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
   get('/openurl/:local_id') do
+    pass unless request.accept? 'application/json'
     content_type :json
     return { openurl: primo.openurl }.to_json
   end
@@ -46,6 +48,7 @@ class ApplicationController < Sinatra::Base
   # Main route
   get('/:local_id') do
     if params[:cite_to] === 'json'
+      pass unless request.accept? 'application/json'
       content_type :json
       return csf_object.to_json
     else
@@ -54,12 +57,8 @@ class ApplicationController < Sinatra::Base
   end
 
   post('/batch') do
-    raise TooManyRecordsError, 'Too many records: You can only export up to ten records.' if @batch_local_ids.count > 10
-    @batch_records = []
-    @batch_local_ids.each do |id|
-      primo_record = CallingSystems::Primo.new(id, @institution)
-      @batch_records << Citero.map(primo_record.get_pnx_json).from_pnx_json.send("to_#{@cite_to.to_format}".to_sym)
-    end
+    raise TooManyRecordsError, 'Too many records: You can only export up to ten records.' if @local_id.count > 10
+    @records = gather_citero_records
     download_or_push
   end
 
@@ -104,7 +103,7 @@ private
   def download
     content_type @cite_to.mimetype
     attachment(@cite_to.filename)
-    csf.force_encoding('UTF-8')
+    csf_string.force_encoding('UTF-8')
   end
 
   # Push to external system depending on how the
@@ -123,7 +122,7 @@ private
         raise ArgumentError, "OpenURL is nil for record ID: #{@local_id}"
       end
     else
-      erb :post_form, locals: { csf: csf }
+      erb :post_form, locals: { csf: csf_string }
     end
   end
 
@@ -168,24 +167,32 @@ private
   end
 
   # Make a call to Primo to get the PNX record
-  def primo
-    @primo ||= CallingSystems::Primo.new(@local_id, @institution)
+  def primo(id = @local_id, institution = @institution)
+    CallingSystems::Primo.new(id, institution)
   end
 
   def display_local_ids
-    @local_id || @batch_local_ids
+    @local_id
   end
 
-  def csf
-    @csf ||= (@batch_records.nil?) ? citero.send("to_#{@cite_to.to_format}".to_sym) : @batch_records.join("\n")
+  def gather_citero_records(records = [])
+    [@local_id].flatten.each do |id|
+      record = primo(id)
+      records << citero(record).send("to_#{@cite_to.to_format}".to_sym)
+    end
+    records
+  end
+
+  def csf_string
+    [gather_citero_records].flatten.join("\n")
   end
 
   def csf_object
-    @csf_object ||= citero.csf.csf
+    citero.csf.csf
   end
 
-  def citero
-    @citero ||= Citero.map(primo.get_pnx_json).from_pnx_json
+  def citero(primo_object)
+    Citero.map(primo_object.get_pnx_json).from_pnx_json
   end
 
   def whitelisted_calling_systems
