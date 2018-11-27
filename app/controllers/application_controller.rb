@@ -9,9 +9,9 @@ class ApplicationController < Sinatra::Base
   before do
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1])
+    # Get external_id if passed in url as external_id= or if is the last path value
     @external_id = (params[:external_id] || request.path_info.split('/').last)
-    set_vars_from_params
-    halt 400, error_messages[:argument_error] if missing_params? || !@external_id
+    halt 400, error_messages[:argument_error] if !set_vars_from_params
     halt 422, error_messages[:primo_record_error] if primo.error? && !@external_id.is_a?(Array)
     halt 400, error_messages[:too_many_records_error] if @external_id.is_a?(Array) && @external_id.count > 10
   end
@@ -28,7 +28,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get('/openurl/:external_id') do
-    pass unless request.accept? 'application/json'
+    halt 400 unless params[:cite_to] === 'json'
     content_type :json
     return { openurl: primo.openurl }.to_json
   end
@@ -125,6 +125,7 @@ private
   def set_vars_from_params
     @institution, @cite_to = (params[:institution] || default_institution), push_format(params[:cite_to])
     @calling_system = (whitelist_calling_system(params[:calling_system]) || default_calling_system)
+    return @institution && @cite_to && @calling_system && @external_id
   end
 
   def default_institution

@@ -27,8 +27,8 @@ describe 'ApplicationController' do
     'You have requested too many records to be exported/downloaded. Please limit your request to 10 records at a time.'
   }
 
-  describe "GET /healthcheck" do
-    before { get "/healthcheck" }
+  describe 'GET /healthcheck' do
+    before { get '/healthcheck' }
     subject { last_response }
     its(:status) { is_expected.to eq 200 }
     its(:body) { is_expected.to eq "{\"success\":true}" }
@@ -49,7 +49,7 @@ describe 'ApplicationController' do
     its(:body) { is_expected.to include 'View the raw PNX JSON (IP restricted)' }
   end
 
-  describe "GET /:identifier", vcr: true do
+  describe 'GET /:identifier', vcr: true do
     before do
       get "/#{external_id}", params
     end
@@ -114,7 +114,7 @@ describe 'ApplicationController' do
     end
   end
 
-  describe "POST /", vcr: true do
+  describe 'POST /', vcr: true do
     let(:cite_to) { 'ris'}
     let(:external_id_array) {
       ['nyu_aleph005399773','nyu_aleph000802014']
@@ -128,7 +128,7 @@ describe 'ApplicationController' do
       }
     }
     before do
-      post "/", params
+      post '/', params
     end
     subject { last_response }
 
@@ -157,5 +157,21 @@ describe 'ApplicationController' do
       its(:body) { is_expected.to include missing_params_message }
     end
 
+  end
+
+  describe 'GET /openurl/:external_id', vcr: true do
+    before { get "/openurl/#{external_id}", params }
+    subject { last_response }
+
+    context 'when cite_to is set to json' do
+      let(:cite_to) { 'json' }
+      its(:status) { is_expected.to eql 200 }
+      its(:content_type) { is_expected.to eql 'application/json' }
+      its(:body) { is_expected.to include "{\"openurl\":\"http" }
+    end
+    context 'when cite_to is set to anything but json' do
+      let(:cite_to) { 'refworks' }
+      its(:status) { is_expected.to eql 400 }
+    end
   end
 end
