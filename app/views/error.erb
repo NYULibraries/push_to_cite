@@ -38,10 +38,10 @@
             <p>We're sorry! Something unexpectedly went wrong. Please use the link below to report this problem.</p>
           <% end %>
 
-          <% if defined?(external_ids) && !external_ids.nil? %>
+          <% if defined?(external_id) && !external_id.nil? %>
           Make sure to include the following ID in your report:
           <code>
-            <%= external_ids %>
+            <%= external_id %>
           </code>
           <% end %>
 

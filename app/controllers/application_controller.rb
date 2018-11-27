@@ -2,29 +2,18 @@ require 'sinatra/base'
 require 'citero'
 
 class ApplicationController < Sinatra::Base
-  class PrimoRecordError < ArgumentError; end
-  class TooManyRecordsError < ArgumentError; end
-  class InvalidExportTypeError < ArgumentError; end
-
   set :show_exceptions, false
   set :root, File.expand_path('../..', __FILE__)
   set :public_folder, File.expand_path('../../../public', __FILE__)
 
   before do
     # Skip setting the instance vars if it's just the healthcheck
-    pass if %w[healthcheck batch].include?(request.path_info.split('/')[1]) || request.path_info == '/'
+    pass if %w[healthcheck].include?(request.path_info.split('/')[1])
     @external_id = (params[:external_id] || request.path_info.split('/').last)
     set_vars_from_params
     halt 400, error_messages[:argument_error] if missing_params? || !@external_id
-    halt 422, error_messages[:primo_record_error] if primo.error?
-  end
-
-  before do
-    pass unless %w[batch].include?(request.path_info.split('/')[1])
-    @external_id = params[:external_ids]
-    set_vars_from_params
-    halt 400, error_messages[:argument_error] if missing_params? || !@external_id
-    halt 400, error_messages[:too_many_records_error] if @external_id.count > 10
+    halt 422, error_messages[:primo_record_error] if primo.error? && !@external_id.is_a?(Array)
+    halt 400, error_messages[:too_many_records_error] if @external_id.is_a?(Array) && @external_id.count > 10
   end
 
   # Healthcheck
@@ -55,16 +44,16 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post('/batch') do
+  post('/') do
     @records = gather_citero_records
     download_or_push
   end
 
   error 400..500 do
     unless response.status === 404
-      erb :error, locals: { external_ids: display_external_ids, msg: response.body }
+      erb :error, locals: { external_id: @external_id, msg: response.body&.first }
     else
-      erb :error, locals: { external_ids: display_external_ids, msg: error_messages[:not_found_error] }
+      erb :error, locals: { external_id: @external_id, msg: error_messages[:not_found_error] }
     end
   end
 
@@ -141,10 +130,6 @@ private
   # Make a call to Primo to get the PNX record
   def primo(id = @external_id, institution = @institution)
     CallingSystems::Primo.new(id, institution)
-  end
-
-  def display_external_ids
-    @external_id
   end
 
   def gather_citero_records(records = [])
