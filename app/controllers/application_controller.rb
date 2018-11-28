@@ -47,7 +47,8 @@ class ApplicationController < Sinatra::Base
   get('/') do
     if params[:cite_to] === 'json'
       content_type :json
-      return @records.map { |r| r.csf_object }.to_json
+      records_with_keys = @records.map { |r| [r.external_id, r.csf_object] }
+      return Hash[*records_with_keys.flatten].to_json
     else
       download_or_push
     end
@@ -138,7 +139,7 @@ private
   def gather_citero_records(records = [])
     [@external_id].flatten.each_with_index do |external_id, idx|
       record = Citero.map(primo(external_id).get_pnx_json).from_pnx_json
-      records << OpenStruct.new(id: idx, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
+      records << OpenStruct.new(id: idx, external_id: external_id, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
     end
     records
   end

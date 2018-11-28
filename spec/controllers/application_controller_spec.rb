@@ -158,6 +158,19 @@ describe 'ApplicationController' do
       end
     end
 
+    context 'when requesting the citation objects as JSON' do
+      subject { last_response }
+      let(:external_id) {
+        ['nyu_aleph005399773','nyu_aleph000802014']
+      }
+      let(:cite_to) { 'json' }
+      its(:status) { is_expected.to eql 200 }
+      its(:content_type) { is_expected.to eql 'application/json' }
+      it 'should produce JSON with the input IDs as the keys' do
+        expect(JSON.parse(subject.body).keys).to eql external_id
+      end
+    end
+
   end
 
   describe 'GET /openurl/:external_id', vcr: true do
