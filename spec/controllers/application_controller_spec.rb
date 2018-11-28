@@ -35,14 +35,13 @@ describe 'ApplicationController' do
     its(:body) { is_expected.to eq "{\"success\":true}" }
   end
 
-  describe 'GET /m/:identifier', vcr: true do
-    before { get "/m/#{external_id}", params }
+  describe 'GET /m', vcr: true do
+    before { get "/m", params }
     subject { last_response }
     its(:status) { is_expected.to eq 200 }
     its(:body) { is_expected.to include 'Refworks Tagged Format' }
     its(:body) { is_expected.to include 'RIS' }
     its(:body) { is_expected.to include 'BibTeX' }
-    its(:body) { is_expected.to include 'OpenURL' }
     its(:body) { is_expected.to include '<textarea aria-label="Export data" class="raw-data">' }
     its(:body) { is_expected.to include 'https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH' }
     its(:body) { is_expected.to include 'Report a mapping or metadata problem' }
