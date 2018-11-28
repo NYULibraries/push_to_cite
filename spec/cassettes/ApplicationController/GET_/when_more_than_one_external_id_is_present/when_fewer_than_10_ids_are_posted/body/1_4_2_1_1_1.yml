@@ -1,0 +1,183 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph005399773?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=716CCFD55FBAC060602B4B113DBC0E9D; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Wed, 28 Nov 2018 19:23:41 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Wed, 28 Nov 2018 19:23:40 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Wed, 28 Nov 2018 19:23:41 GMT
+- request:
+    method: get
+    uri: http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph000802014?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=D9579DE1B54B7C63DEB6FD77044FC9B7; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Wed, 28 Nov 2018 19:23:41 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Wed, 28 Nov 2018 19:23:40 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAOxb/W7bOBJ/FUHrBrtALFuyk9g+CLk0TVMv8oXa2b1uXRiURNvc0KJCUk68RV5pH+Ke7IYUZcmx3SZ7zaIL+I/E/BgOhzPD31Di6LMdIYntju3V6669awuW8hB3I2iJ5+kQUZxMoDnkGEnC4mXiCFMyw3zejYUkMlUE0Hnx4VoxSoPfcSjtzkf7DRuLQerV3cZbEmqiXftdOkVxFcVkiqjFMdXcxYQkwiKxRYnEHMmUY/tTLlNvLiSeAv8jIxMRQazYu+16/cDdax40oLF90FrUW2owRfE4RWOsKCdSJp1BbVAjkUNZ6IzZbFCbsRAFKUV8Du2C7TfaVW9Qw/G4mPqRMpLwlLM0gdbGvtf03Fa7Ca1ynijCgLEbVSOSqmp/gq0xxziG/0gIS4I4DPoDjEIWX3oe0OwdQMOIB7yfsdhXi1ujUhxzEk6mOAatfrZnhMsU0dec3Ql8aZT92Q4RpRfpNMAcxl29bze8utN2Tvca1ulB0zKGI+KX8uiTGAUUg80lT/FuiUXW/ZZgqhwi0LWh6o51t1O3Hx6AGxVHV10SZYLW3Xq93qqDuZVW/t3/cHVSqAXWLPE9CGqfQW3KIjIiamL7VxxZF2xmeS3LbXa8RqfpWie9PgjstuzMig0gU2YBpnquhTUDFoRIRnjmUBJwMKQD1nJwlA5qCSdTNjTNgxoU7nAwqME/gfmMhFgMahwLCW7gAnV8D/WzQW1h7cVSDpVB/MwOylTaA7pvHvmA8YyVdhKB0dRSwSgfP0PVWHqxhCTl1GF8PKhF4aAGzj8FQZRHaaEWSx526ppb2SELbT/sPpO1WshYCQwciyncfIpiBc/mrPdmwdLLWZb26sOnAkCU46IZIhQFBPb+/IzEN0Lt2AhLaBWnGDaDqzZkMpkLAh7YBSzogycdswgDpa3QiIiEovkZ7Ods24wQFeDOK4yvOVW8NTpAXZskH4wCDJ22nICDxzDObMUmS1C42Ihq1PX7s2xaVdmsGbCecruMBLRT4luYVKn3kQDHExzeWCPGraMp+oPFVg8jHk4sgFpwpq9ItZDj7u7OQXq8E7LpoDZOlLujCPNBbQk2n7UIVZJMsnDJadYsAnDCrT9BVqHnu0XOWNl5dRfDDmV0hg93Qnk/BH/xf2u0nVarCmjW1G04Dn0Sj1iHjYjC7rBz3X9bbek+Saa+QpGq61a9Vt9tvmoceQ3413S7vf4OLHKFpWpTQ0dTqdkqplDu3OBZZyrvO9C3w0d8SKJsVjCJgRoH3yvpidDbSim9o9urq9sVOMjhDNHFLJ2VeRRoKjLQS8yxv6j+rqOLr8tBVoY488qr60ijfyHWwK+ONpoMQYQDADsllLO5aRkRDk2vYf9RxzSRmEi/VHbLlWleEeloRO7zmmG6C/NpXqY5ZDzJSGaMplMjLhEiNcUEcTPXbQpFsIGuCBGbQgJhOyvioqhKwkzNJcQh05wG/hUGOgpi9EENWStFIfbPMI6EEu8kHkMgiXJBzDy4KCrY8ouNkYlBQpL1hoA1GeHC8hEDk+lOpiOw6shmVlb311tdzRgYRnCg8l81jheErxonC1poL4Ui6IGGMU9gDigvwFlTLZqhxlD2O6jlJfDnvCkrLq2BIb0GfOvkZyU/C7PPAwWz1wvI3wAI7jcEhHRKUQpmKw5LKkQfvdkCxRYotkDx/QKFWwKKxiag8F4cKHrvtkCxBYotUHy/QOGVgKK5DihYgmNgMEop1S8WXvhhQ4zuHTKOGcdKz3goJ0A+YTTy3S1sbGHjO4MNMQu/YlgRToZApSidfA/5cyz+MaCiSZJbA5IL4mSqdsJzEWcVTHLs2fsC9mxfcGxxZXsc+ccdR14COUqIsb8OMXohiq33+DbFQj71Ha661yCUroIGNBIU5b9OROnhkb5e8936zlvGARUaO1cTJtnPLOUxov2vbqQLJsH3OAbXjkhULQzl1Y8Xl0LVTbdKzz3d1Q9K+jpYp68rsNXfqS9354yh+Ot6UlRHqZwwvoINqusNHA19pZS/W6GtkkJb6xR6imPMSbjV6dN12i7ptL1Op+fwNGAFJKCEwYqSCahXIQmfInPX/SQVawgUEhx+VctvD0cpHAAiAouWO5SFEFQDJLB/9b57fnl8eX5+ebETsXCYXcv65QvYZ603QOGNvhIrXezUN72fabzs+5nj6+1paHsa2p6Gvt+XM40yTLibb7GPShfwHUAJ6/Xl617fOkckto4ZpVhHDOvHtZBt/fSNr+CV5M2y5N5zJGeBkNaK6Btlt6wXkH6vLP361+f6hl69lyLxWHzDEEQknlbHlAWI6oBj6Hyd9/OSkWllRQsFrH0teMySuaWEtUw4e1qgWs0fwlwQIXEsoTOMN2YGlS4Vdooxf22RHM8Ivisvce8LHqqzO/5qPogY1A6FTiypIjjACR8lYmek0r2qN3h+Bwcs4f+/eSLpUprI/ualMDnB3MpMQLCwfvyVcRodI/nfP396zgLv1LAQyUymbHmHt74CYTgGfNvlrH1qKSf5rPMyMY8jOA6FIjMCgdq9g0Ryf/goIA1qvWPn56vTnZAScCdfR5lvkXLktnT6VTkzSmVEpbFpoXhIYvBzOiw5t1AJUyiKiKogmudZiTxt0GgBR0dLbL/Kddc221onYsGpOZzAk8O7fKurRkPwXp/5gWVrz/vhh0BlECrqS5UiqSB5kfqljLJ2TLg0pgd9cQQbvhj4SWeu5nWVXaZ4H3Uv7CzPMSHdtXmOBjnMAB3gsjxL2FfRtVCJf5mWpmU5C8qltM0vREIUoQQgQtvx6Ozk6t3QU3ckYHgUkz/QUr6o0UDmfpe/XD1KIyxbvyeRTMWysewlVRgVl6KemUHrQysugCdKuiD/Hky5QdkbLfxUK6xV93oXeDGNr/GuhyKjEmATjxnX2/rK5ExaKmlSZzVnua/nWtKPNpslqnWE32Q7+FIBcWl7mzzKUyy70lOGJeJMY+FlDDCDFwQGAPpZgm/xSmwCOMQ1IGU90DRWvPooMC0SBd7QKMLOszK3b863z4rbZ8V/4JvzMuSVoEYncavvHQxOALRnmOLqwEBNzvcT4eUJjziPcQdQxi2hzCoGlXs3BNovnwE0bD2OtCoQhQs4foTGD58ezNc1TH0bYJsNY+ntYudntOWvQSqVLsxdqfSWQ0f2ylEl2TfaVuJY/7I81wqnjl18BKPk/mibb1tYSEMtZLPd3m97LS+PUAZkSzOd6WhWqbiPAlKl4m2KksviVSoNt1Jpwt/eRaWy7zUqlf8A5716pfLB8P4tj8FFuANZszCqEv/j++6G7x5A2cV3JUXQUAGoGiNnwuBhLFqFX4PLg5oZLPJvLcDqYwIn3F7xLZS2tdJPutZIatPCkzh0rXx/BOhDiZjoLz/sDG4sAzZWx8pwyVKopIglS0j4LT6Z0gLVH30dtfieKX93Dgsra1E5BKBm2SMe/gcAAP//AwAOsodSIDYAAA==
+    http_version: 
+  recorded_at: Wed, 28 Nov 2018 19:23:41 GMT
+- request:
+    method: get
+    uri: http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph005399773?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=03800736EB4E7D3B8B82F9C173182CD5; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Wed, 28 Nov 2018 19:23:41 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Wed, 28 Nov 2018 19:23:41 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Wed, 28 Nov 2018 19:23:41 GMT
+- request:
+    method: get
+    uri: http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph000802014?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=0ABD1B3742870A815051F85553F41AE2; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Wed, 28 Nov 2018 19:23:42 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Wed, 28 Nov 2018 19:23:41 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Wed, 28 Nov 2018 19:23:42 GMT
+recorded_with: VCR 3.0.3
