@@ -10,12 +10,16 @@ This is a microservice that fetches the metadata for a given record from a calli
 
 ## Usage
 
-### `GET /:external_id`
+### `GET /`
 
 #### Example
 
 ```
+curl http://localhost:9292/lcn12345?cite_to=ris
+# OR specifying non-default values
 curl http://localhost:9292/lcn12345?calling_system=primo&cite_to=ris&institution=NYU
+# OR batch get up to 10 records
+curl http://localhost:9292/?external_id[]=nyu_aleph005399773&external_id[]=nyu_aleph000802014&calling_system=primo&institution=NYU&cite_to=ris"
 ```
 
 #### Parameters
@@ -24,23 +28,7 @@ The only interface with this API is a `GET` request with the following params (*
 
 |name|usage|default|
 |----|-----|-------|
-| `calling_system` | the name of the calling system to call for getting more record data. currently only supports `primo` | primo |
-| `cite_to` | the destination format or service. supports: `endnote`, `refworks`, `ris`, `bibtex` | N/A |
-| `institution` | the name of the institution in the calling system, e.g. `NYU` | NYU |
-
-### `POST /batch`
-
-```
-curl -X POST http://localhost:9292/ -d "external_id[]=nyu_aleph005399773&external_id[]=nyu_aleph000802014&calling_system=primo&institution=NYU&cite_to=ris"
-```
-
-#### Parameters
-
-The only interface with this API is a `GET` request with the following params (**all params are required**):
-
-|name|usage|default|
-|----|-----|-------|
-| `external_id` | an array of local IDs in the calling system for export.  | N/A |
+| `external_id` | an array of local IDs in the calling system for export. limit of 10 at a time. | N/A |
 | `calling_system` | the name of the calling system to call for getting more record data. currently only supports `primo` | primo |
 | `cite_to` | the destination format or service. supports: `endnote`, `refworks`, `ris`, `bibtex` | N/A |
 | `institution` | the name of the institution in the calling system, e.g. `NYU` | NYU |
@@ -51,13 +39,14 @@ This tool includes a citation viewer for metadata managers and users to have mor
 
 ## Usage
 
-### `GET /m/:external_id`
+### `GET /m`
 
 #### Example
+
 ```
-curl http://localhost:9292/m/lcn12345?calling_system=primo&cite_to=ris&institution=NYU
+curl http://localhost:9292/m?calling_system=primo&cite_to=ris&institution=NYU&external_id=lcn12345
 ```
 
 #### Parameters
 
-This view is just a passive wrapper around the API above and so the params are the same.
+This view is just a wrapper around the API above and so the params are the same.
