@@ -10,12 +10,17 @@ class ApplicationController < Sinatra::Base
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1])
     # Get external_id if passed in url as external_id= or if is the last path value
-    # require 'pry'; binding.pry
     @external_id = (params[:external_id] || request.path_info.split('/').last)
     halt 400, error_messages[:argument_error] if !set_vars_from_params
     halt 422, error_messages[:primo_record_error] if primo.error? && !@external_id.is_a?(Array)
     halt 400, error_messages[:too_many_records_error] if @external_id.is_a?(Array) && @external_id.count > 10
     @records = gather_citero_records
+  end
+
+  helpers do
+    def change_querystring_format(cite_to)
+      request.query_string.gsub("cite_to=#{params[:cite_to]}", "cite_to=#{cite_to}")
+    end
   end
 
   # Healthcheck
@@ -25,7 +30,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # Citation Data Viewer
-  get('/m/:external_id') do
+  get('/m') do
     erb :data_viewer, locals: { csf: citations, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
@@ -36,7 +41,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get('/:external_id') do
-    download_or_push
+    redirect "/?#{request.query_string}"
   end
 
   get('/') do
@@ -132,7 +137,7 @@ private
 
   def gather_citero_records(records = [])
     [@external_id].flatten.each_with_index do |external_id, idx|
-      record = Citero.map(CallingSystems::Primo.new(external_id, @institution).get_pnx_json).from_pnx_json
+      record = Citero.map(primo(external_id).get_pnx_json).from_pnx_json
       records << OpenStruct.new(id: idx, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
     end
     records

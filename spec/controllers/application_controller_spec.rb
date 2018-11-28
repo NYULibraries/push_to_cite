@@ -59,7 +59,8 @@ describe 'ApplicationController' do
       }
     end
     before { get "/#{external_id}", params }
-    subject { last_response.body }
+    subject { last_response.status }
+    it { is_expected.to eql 302 }
   end
 
   describe 'GET /', vcr: true do

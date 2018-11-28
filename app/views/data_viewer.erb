@@ -37,10 +37,9 @@
 
           <h2 class="list-header">View data for export to:</h2>
           <ul class="export-types breadcrumb">
-            <li><a href="?cite_to=refworks&institution=<%= @institution %>&calling_system=<%= @calling_system %>">Refworks Tagged Format</a></li>
-            <li><a href="?cite_to=ris&institution=<%= @institution %>&calling_system=<%= @calling_system %>">RIS</a></li>
-            <li><a href="?cite_to=bibtex&institution=<%= @institution %>&calling_system=<%= @calling_system %>">BibTeX</a></li>
-            <li><a href="?cite_to=openurl&institution=<%= @institution %>&calling_system=<%= @calling_system %>">OpenURL</a></li>
+            <li><a href="?<%= change_querystring_format('refworks') %>">Refworks Tagged Format</a></li>
+            <li><a href="?<%= change_querystring_format('ris') %>">RIS</a></li>
+            <li><a href="?<%= change_querystring_format('bibtex') %>">BibTeX</a></li>
           </ul>
 
           <h2>Suggested Links</h2>
