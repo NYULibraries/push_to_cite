@@ -10,6 +10,7 @@ class ApplicationController < Sinatra::Base
     # Skip setting the instance vars if it's just the healthcheck
     pass if %w[healthcheck].include?(request.path_info.split('/')[1])
     # Get external_id if passed in url as external_id= or if is the last path value
+    # require 'pry'; binding.pry
     @external_id = (params[:external_id] || request.path_info.split('/').last)
     halt 400, error_messages[:argument_error] if !set_vars_from_params
     halt 422, error_messages[:primo_record_error] if primo.error? && !@external_id.is_a?(Array)
@@ -25,7 +26,6 @@ class ApplicationController < Sinatra::Base
 
   # Citation Data Viewer
   get('/m/:external_id') do
-
     erb :data_viewer, locals: { csf: citations, primo_api_url: primo.pnx_json_api_endpoint }
   end
 
@@ -35,14 +35,12 @@ class ApplicationController < Sinatra::Base
     return { openurl: primo.openurl }.to_json
   end
 
-  # Main route
   get('/:external_id') do
     download_or_push
   end
 
   get('/') do
     if params[:cite_to] === 'json'
-      pass unless request.accept? 'application/json'
       content_type :json
       return @records.map { |r| r.csf_object }.to_json
     else
@@ -107,7 +105,7 @@ private
       when :openurl
         PushFormats::Openurl.new
       when :json
-        {}
+        PushFormats::Openurl.new # Dummy val, doesn't matter
       else halt 400, error_messages[:argument_error]
     end
   end
