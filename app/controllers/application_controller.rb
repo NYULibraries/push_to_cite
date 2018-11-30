@@ -19,7 +19,7 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def change_querystring_format(cite_to)
-      request.query_string.gsub("cite_to=#{params[:cite_to]}", "cite_to=#{cite_to}")
+      whitelist_params(request.query_string).gsub("cite_to=#{params[:cite_to]}", "cite_to=#{cite_to}")
     end
   end
 
@@ -41,7 +41,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get('/:external_id') do
-    redirect "/?#{request.query_string}"
+    redirect "/?#{whitelist_params(request.query_string)}&external_id[]=#{params[:external_id]}"
   end
 
   get('/') do
@@ -154,6 +154,19 @@ private
 
   def whitelisted_calling_systems
     @whitelisted_calling_systems ||= %w(primo)
+  end
+
+  def whitelist_params(query_string)
+    # Cast querystring as a ruby hash
+    query_as_hash = Rack::Utils.parse_nested_query(query_string)
+    # Only keep whitelisted params
+    whitelisted_query = query_as_hash.slice(*whitelisted_params)
+    # Encode hash back to querystring
+    return URI.encode_www_form(whitelisted_query)
+  end
+
+  def whitelisted_params
+    @whitelisted_params ||= %w(cite_to calling_system external_id institution)
   end
 
   def primo(id = @external_id, institution = @institution)
