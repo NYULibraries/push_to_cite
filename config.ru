@@ -1,4 +1,5 @@
 # config.ru
+require 'rack'
 require 'sinatra/base'
 require 'prometheus/middleware/collector'
 require 'prometheus/middleware/exporter'
@@ -13,6 +14,7 @@ end
 
 # Run sentry
 use Raven::Rack
+use Rack::Deflater
 # Run prometheus middleware to collect default metrics
 use Prometheus::Middleware::Collector, metrics_prefix: ENV['PROMETHEUS_METRICS_PREFIX'], counter_label_builder: -> (env, code) {
   {
