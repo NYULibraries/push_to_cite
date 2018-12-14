@@ -55,6 +55,10 @@ class ApplicationController < Sinatra::Base
   end
 
   error 400..500 do
+    if params[:cite_to] === 'json'
+      content_type :json
+      return { error: { status: response.status, msg: response.body&.first} }.to_json
+    end
     unless response.status === 404
       erb :error, locals: { external_id: @external_id, msg: response.body&.first }
     else
