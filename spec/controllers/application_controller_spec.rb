@@ -132,6 +132,13 @@ describe 'ApplicationController' do
       }
       subject { last_response }
 
+      context 'when at least one external_id cannot be found in primo' do
+        let(:external_id) {
+          ['nyu_aleph005399773','blahblah']
+        }
+        its(:body) { is_expected.to eql '' }
+      end
+
       context 'when fewer than 10 ids are posted' do
         its(:body) { is_expected.to include 'TY  - BOOK' }
         its(:body) { is_expected.to include 'A1  - Gilroy, Beryl' }

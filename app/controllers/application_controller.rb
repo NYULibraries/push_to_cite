@@ -50,7 +50,11 @@ class ApplicationController < Sinatra::Base
       records_with_keys = @records.map { |r| [r.external_id, r.csf_object] }
       return Hash[*records_with_keys.flatten].to_json
     else
-      download_or_push
+      if @records.any?(&:error)
+        erb :error, locals: { external_id: @records.select(&:error).map(&:external_id), msg: "One or more of the requested records could not be found." }
+      else
+        download_or_push
+      end
     end
   end
 
@@ -138,8 +142,9 @@ private
 
   def gather_citero_records(records = [])
     [@external_id].flatten.each_with_index do |external_id, idx|
-      record = Citero.map(primo(external_id).get_pnx_json).from_pnx_json
-      records << OpenStruct.new(id: idx, external_id: external_id, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
+      primo_record = primo(external_id)
+      record = Citero.map(primo_record.get_pnx_json).from_pnx_json
+      records << OpenStruct.new(id: idx, external_id: external_id, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym), error: primo_record.error?)
     end
     records
   end
