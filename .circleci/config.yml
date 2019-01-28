@@ -14,12 +14,12 @@ build_docker: &build_docker
       docker-compose build
       docker-compose -f docker-compose.build.yml build
 
-# add filter to use docker cp later with workaround described in: https://github.com/docker/compose/issues/6271
+# add label to use docker cp later with workaround described in: https://github.com/docker/compose/issues/6271
 test: &test
   run:
     name: Test
     command: |
-      docker-compose run --filter="com.corp.filegen.id=dev" dev rspec
+      docker-compose run --label="com.corp.filegen.id=dev" dev rspec
 
 auth_quay: &auth_quay
   run:
