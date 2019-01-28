@@ -20,16 +20,16 @@ services:
     image: pushtocite
   pushtocite_2:
     <<: *build-image
-    image: "nyulibraries/pushtocite:latest"
+    image: "quay.io/nyulibraries/pushtocite:latest"
     depends_on:
       - pushtocite_1
   pushtocite_3:
     <<: *build-image
-    image: "nyulibraries/pushtocite:${BRANCH_NO_SLASH}"
+    image: "quay.io/nyulibraries/pushtocite:${BRANCH_NO_SLASH}"
     depends_on:
       - pushtocite_2
   pushtocite_4:
     <<: *build-image
-    image: "nyulibraries/pushtocite:${BRANCH_NO_SLASH}-${CIRCLE_SHA1}"
+    image: "quay.io/nyulibraries/pushtocite:${BRANCH_NO_SLASH}-${CIRCLE_SHA1}"
     depends_on:
       - pushtocite_3
