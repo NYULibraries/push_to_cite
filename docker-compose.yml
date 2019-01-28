@@ -8,8 +8,8 @@ x-defaults: &defaults
       - ruby:2.5.1-alpine
       - pushtocite_test
       - pushtocite
-      - nyulibraries/pushtocite
-      - nyulibraries/pushtocite:$BRANCH_NO_SLASH
+      - quay.io/nyulibraries/pushtocite
+      - quay.io/nyulibraries/pushtocite:$BRANCH_NO_SLASH
     args:
       RUN_PACKAGES: "git"
       ADDL_BUILD_PACKAGES: ""

@@ -5,8 +5,8 @@ x-build-image: &build-image
     cache_from:
       - pushtocite_test
       - pushtocite
-      - nyulibraries/pushtocite
-      - nyulibraries/pushtocite:$BRANCH_NO_SLASH
+      - quay.io/nyulibraries/pushtocite
+      - quay.io/nyulibraries/pushtocite:$BRANCH_NO_SLASH
     args:
       BUNDLE_WITHOUT: "no_docker development test"
       RUN_PACKAGES: ""
