@@ -59,7 +59,7 @@ jobs:
           when: always
           command: |
             cid=$(docker ps --filter label="com.corp.filegen.id=dev" -a -q)
-            docker cp cid:/app/test-results . 
+            docker cp $cid:/app/test-results . 
       - store_test_results:
           path: ~/app/test-results
       - store_artifacts:
