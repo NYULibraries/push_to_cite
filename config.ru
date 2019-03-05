@@ -36,7 +36,6 @@ use Prometheus::Middleware::Collector, metrics_prefix: ENV['PROMETHEUS_METRICS_P
     route:        env['sinatra.route']
   }
 }
-}
 # Run prometheus exporter to have a /metrics endpoint that can be scraped
 # The endpoint will only be available to prometheus
 use Prometheus::Middleware::Exporter
