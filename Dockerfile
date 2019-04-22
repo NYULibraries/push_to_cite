@@ -1,4 +1,4 @@
-FROM ruby:2.5.1-alpine
+FROM ruby:2.6-alpine
 
 # Env
 ENV INSTALL_PATH /app
@@ -7,6 +7,7 @@ ENV BUNDLE_PATH=/usr/local/bundle \
     GEM_HOME=/usr/local/bundle
 ENV PATH="${BUNDLE_BIN}:${PATH}"
 ENV USER docker
+ENV BUNDLER_VERSION='2.0.1'
 
 RUN addgroup -g 2000 $USER && \
     adduser -D -h $INSTALL_PATH -u 1000 -G $USER $USER
@@ -21,7 +22,7 @@ ARG BUILD_PACKAGES="build-base linux-headers ruby-dev"
 ARG ADDL_BUILD_PACKAGES="git"
 ARG BUNDLE_WITHOUT="no_docker"
 RUN apk add --no-cache --update $BUILD_PACKAGES $ADDL_BUILD_PACKAGES $RUN_PACKAGES \
-  && gem install bundler -v '1.16.5' \
+  && gem install bundler -v ${BUNDLER_VERSION} \
   && bundle config --local github.https true \
   && bundle install --without $BUNDLE_WITHOUT --jobs 20 --retry 5 \
   && rm -rf /root/.bundle && rm -rf /root/.gem \
