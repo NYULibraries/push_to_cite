@@ -18,6 +18,10 @@ module CallingSystems
       @get_pnx_json ||= JSON.parse(get_record.body)
     end
 
+    def get_locations
+      @get_locations ||= get_pnx_json.dig("delivery", "link")&.filter {|h| h["displayLabel"].match(/^Check Availability:/) }.map {|l| l["displayLabel"].gsub(/^Check Availability:/,'')&.strip }
+    end
+
     def openurl
       @openurl ||= get_pnx_json.dig("delivery", "link")&.find {|h| h["displayLabel"] == "lln10" }.dig("linkURL")
     end
