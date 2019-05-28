@@ -27,10 +27,10 @@ services:
       PRIMO_BASE_URL: http://primodev1.bobst.nyu.edu
       TERM: xterm
       PAGER: more
-    volumes:
-      - ./:/app
     command: rerun 'rackup --host 0.0.0.0 -p 9292'
-    # command: rackup --host 0.0.0.0 -p 9292
+#     volumes:
+#       - ./:/app
+#     command: rackup --host 0.0.0.0 -p 9292
 #     networks:
 #       - custom
 
