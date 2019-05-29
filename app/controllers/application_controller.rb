@@ -148,8 +148,9 @@ private
         id: idx, 
         external_id: external_id, 
         csf_object: record.csf.csf.merge({ 
-          locations: primo_record.get_locations 
-        }),
+          locations: primo_record.locations,
+          links: primo_record.links,
+        }).merge(primo_record.whitelisted_attributes),
         citation: record.send("to_#{@cite_to.to_format}".to_sym)
       )
     end
