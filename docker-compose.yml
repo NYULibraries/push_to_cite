@@ -28,11 +28,11 @@ services:
       TERM: xterm
       PAGER: more
     command: rerun 'rackup --host 0.0.0.0 -p 9292'
-#     volumes:
-#       - ./:/app
-#     command: rackup --host 0.0.0.0 -p 9292
-#     networks:
-#       - custom
+    # volumes:
+    #   - ./:/app
+    # command: rackup --host 0.0.0.0 -p 9292
+    # networks:
+    #   - custom
 
 # networks:
 #   custom:
