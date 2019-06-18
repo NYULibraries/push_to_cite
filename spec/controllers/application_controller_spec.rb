@@ -45,7 +45,7 @@ describe 'ApplicationController' do
     its(:body) { is_expected.to include '<textarea aria-label="Export data" class="raw-data">' }
     its(:body) { is_expected.to include 'https://nyu.qualtrics.com/jfe/form/SV_8AnbZWUryVfpWXH' }
     its(:body) { is_expected.to include 'Report a mapping or metadata problem' }
-    its(:body) { is_expected.to include "http://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/#{external_id}?inst=#{institution}" }
+    its(:body) { is_expected.to include "#{ENV['CITE_URL']}/primo_library/libweb/webservices/rest/v1/pnxs/L/#{external_id}?inst=#{institution}" }
     its(:body) { is_expected.to include 'View the raw PNX JSON (IP restricted)' }
   end
 

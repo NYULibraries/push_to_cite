@@ -19,11 +19,21 @@ services:
   dev:
     <<: *defaults
     ports:
-      - "9292:9292"
+      - 9292:9292
     environment:
       UNICORN_PORT: "9292"
       CI:
       COVERALLS_REPO_TOKEN:
+      PRIMO_BASE_URL: http://primodev1.bobst.nyu.edu
+      TERM: xterm
+      PAGER: more
+    command: rerun 'rackup --host 0.0.0.0 -p 9292'
     # volumes:
-      # - ./app:/app/app
-      # - ./public:/app/public
+    #   - ./:/app
+    # command: rackup --host 0.0.0.0 -p 9292
+    # networks:
+    #   - custom
+
+# networks:
+#   custom:
+#     external: true

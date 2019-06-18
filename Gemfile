@@ -20,6 +20,7 @@ end
 group :test, :development do
   gem 'pry', '~> 0.10.4'
   gem 'rubocop', require: false
+  gem 'rerun', '~> 0.13.0'
 end
 
 gem 'sentry-raven', '~> 2'

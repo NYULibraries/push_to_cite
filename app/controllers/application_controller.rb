@@ -142,8 +142,17 @@ private
 
   def gather_citero_records(records = [])
     [@external_id].flatten.each_with_index do |external_id, idx|
-      record = Citero.map(primo(external_id).get_pnx_json).from_pnx_json
-      records << OpenStruct.new(id: idx, external_id: external_id, csf_object: record.csf.csf, citation: record.send("to_#{@cite_to.to_format}".to_sym))
+      primo_record = primo(external_id)
+      record = Citero.map(primo_record.get_pnx_json).from_pnx_json
+      records << OpenStruct.new(
+        id: idx, 
+        external_id: external_id, 
+        csf_object: record.csf.csf.merge({ 
+          locations: primo_record.locations,
+          links: primo_record.links,
+        }).merge(primo_record.whitelisted_attributes),
+        citation: record.send("to_#{@cite_to.to_format}".to_sym)
+      )
     end
     records
   end
