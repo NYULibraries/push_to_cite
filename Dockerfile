@@ -22,6 +22,7 @@ ARG BUILD_PACKAGES="build-base linux-headers ruby-dev"
 ARG ADDL_BUILD_PACKAGES="git"
 ARG BUNDLE_WITHOUT="no_docker"
 RUN apk add --no-cache --update $BUILD_PACKAGES $ADDL_BUILD_PACKAGES $RUN_PACKAGES \
+  && apk add --upgrade bzip2 \
   && gem install bundler -v ${BUNDLER_VERSION} \
   && bundle config --local github.https true \
   && bundle install --without $BUNDLE_WITHOUT --jobs 20 --retry 5 \
@@ -31,13 +32,6 @@ RUN apk add --no-cache --update $BUILD_PACKAGES $ADDL_BUILD_PACKAGES $RUN_PACKAG
 && chown -R docker:docker $BUNDLE_PATH
 
 COPY --chown=docker:docker . .
-
-# run microscanner
-ARG AQUA_MICROSCANNER_TOKEN
-RUN wget -O /microscanner https://get.aquasec.com/microscanner && \
-  chmod +x /microscanner && \
-  /microscanner ${AQUA_MICROSCANNER_TOKEN} && \
-rm -rf /microscanner
 
 USER docker
 EXPOSE 9292
