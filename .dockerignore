@@ -1,3 +1,7 @@
 .git
 tmp
 vendor
+
+.circleci/
+Dockerfile*
+docker-compose*yml
