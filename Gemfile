@@ -25,4 +25,4 @@ end
 
 gem 'sentry-raven', '~> 2'
 # gem 'ddtrace', '~> 0.21.1'
-gem 'prometheus-client', '~> 0.8.0'
+gem 'prometheus-client', '~> 2.0.0'

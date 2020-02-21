@@ -50,14 +50,12 @@ GEM
     parser (2.5.3.0)
       ast (~> 2.4.0)
     powerpack (0.1.2)
-    prometheus-client (0.8.0)
-      quantile (~> 0.2.1)
+    prometheus-client (2.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (3.1.0)
-    quantile (0.2.1)
     rack (2.1.1)
     rack-protection (2.0.3)
       rack
@@ -142,7 +140,7 @@ DEPENDENCIES
   citero!
   coveralls
   json (~> 2.1.0)
-  prometheus-client (~> 0.8.0)
+  prometheus-client (~> 2.0.0)
   pry (~> 0.10.4)
   rack-test
   rake (~> 12.0.0)
