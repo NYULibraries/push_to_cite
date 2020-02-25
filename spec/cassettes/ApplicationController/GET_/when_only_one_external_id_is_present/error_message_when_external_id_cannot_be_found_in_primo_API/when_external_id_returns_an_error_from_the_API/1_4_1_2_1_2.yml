@@ -90,4 +90,51 @@ http_interactions:
         H4sIAAAAAAAAAKpWSkpNTM7P8zcyUrJSsrRUqgUAAAD//wMApP0vXRIAAAA=
     http_version: 
   recorded_at: Wed, 29 May 2019 15:16:36 GMT
+- request:
+    method: get
+    uri: https://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-musl x86_64) ruby/2.6.5p114
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.12.2
+      Date:
+      - Tue, 25 Feb 2020 21:23:17 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - JSESSIONID=BE9550AA16F673A097DE5CB2A4D758DA; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Tue, 25 Feb 2020 21:23:17 GMT
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAKpWSkpNTM7P8zcyUrJSMleqBQAAAP//AwBUfPAQEQAAAA==
+    http_version: 
+  recorded_at: Tue, 25 Feb 2020 21:23:16 GMT
 recorded_with: VCR 3.0.3

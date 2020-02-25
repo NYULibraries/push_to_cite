@@ -24,7 +24,7 @@ services:
       UNICORN_PORT: "9292"
       CI:
       COVERALLS_REPO_TOKEN:
-      PRIMO_BASE_URL: http://primodev1.bobst.nyu.edu
+      PRIMO_BASE_URL: https://bobcatdev.library.nyu.edu
       TERM: xterm
       PAGER: more
     command: rerun 'rackup --host 0.0.0.0 -p 9292'

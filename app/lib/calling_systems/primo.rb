@@ -3,7 +3,7 @@ require 'rest-client'
 module CallingSystems
   class Primo
 
-    @@primo_base_url = ENV['PRIMO_BASE_URL'] || "http://bobcatdev.library.nyu.edu"
+    @@primo_base_url = ENV['PRIMO_BASE_URL'] || "https://bobcatdev.library.nyu.edu"
     @@proxy_url = ENV['PROXY_URL']
 
     WHITELISTED_ATTRS = [:addau, :institution, :subject, :oclcnum].freeze
@@ -37,7 +37,7 @@ module CallingSystems
 
     def locations
       # This is messy, looking for locations with trailing spaces "Check Availability: NYU Bobst  Main Collection  (DS119.7 .S381877 2013 )    "
-      @locations ||= get_pnx_json.dig("delivery", "link")&.filter {|h| h.dig("displayLabel")&.match(/^Check Availability:(.+)?\s+$/) }&.map {|l| l.dig("displayLabel")&.gsub(/^Check Availability:/,'')&.strip }
+      @locations ||= get_pnx_json.dig("delivery", "link")&.filter {|h| h.dig("displayLabel")&.match(/^Check Availability:(.+)?$/) }&.map {|l| l.dig("displayLabel")&.gsub(/^Check Availability:/,'')&.strip }&.uniq
     end
 
     # Reject Arrays & match against primo errors

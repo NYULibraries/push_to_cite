@@ -50,6 +50,13 @@ describe CallingSystems::Primo, vcr: true do
     its(["linktoholdings"]) { is_expected.to include "doc_number=#{}" }
   end
 
+  describe '#locations' do
+    subject { primo.locations }
+    its(:count) { is_expected.to eql 1 }
+    it { is_expected.to be_an_instance_of Array }
+    it { is_expected.to include "NYU BWEB Internet Resources (PS3537.A426 C36 1993 Electronic access )" }
+  end
+
   describe '#whitelisted_attributes' do
     subject { primo.whitelisted_attributes }
     it { is_expected.to be_an_instance_of Hash }

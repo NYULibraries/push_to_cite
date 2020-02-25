@@ -270,4 +270,145 @@ http_interactions:
         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
     http_version: 
   recorded_at: Wed, 29 May 2019 15:16:45 GMT
+- request:
+    method: get
+    uri: https://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph004508721?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-musl x86_64) ruby/2.6.5p114
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.12.2
+      Date:
+      - Tue, 25 Feb 2020 21:23:29 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - JSESSIONID=93B0FCF296A16BF118D429D82CFDD081; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Tue, 25 Feb 2020 21:23:29 GMT
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAOxc63IaORZ+FRVVYZMqu6HBV6aojMexM0w5tsuQzGbDFCW6BWgsWh1Jjc2m/Er7EPtke47UNI2B2CaZTGa2f9jofjmX7xypJX0qhdSwUqPkHx7WS1slLRMVsFYIKdE06VHB4hEkR9IWakWBSEKmSZ/3BZdDReMRD6ggig2YYlEAWTQKCY9CdutBvUAxariM0k6CtBdsTm/SXsgEnzA1bUXacJNg09DM+fu3OPSk/zsLTKnxodSmgkdDprbILx555ZHnvzAlx4y8ohMevtgi/qF/uF2r+lWPHFMTjJiCLogZMaKmDJo6pokYcCbCLfKzFCGLyPNTHkCPXCaaBCOqaGCYegFFr5KI3tApMYxFFLrU2JLgkEtNorCxjsshfTm9n/nbjODtqTZsDFM5SgnOdT/CmRzuH1QPqrv7/mG9fgDpWWQHKwPpAsVjR4YPpUslYX4Me9kOWWxGQDwqppprIgd2eq5vNSU3Ul2TDqTcm//VlG0RqskNEwJ/uYG/cSyVocANywzo0aRMCpjt2yMZIylQR8lICjmczjsduJrYaTYUmpiRVB5OQ9BomACJcA4jY+JGt9Kt8NATMvCGctKtTGRA+4mAgUO6lnt14F63wqLhnIL3BNZMY0zqS3mNMW4ERnHCwRLDIRjJAKWNJCBoisSKae2Yp5igKXk/lX7kqBe9RrWEY+4zATHNFId5z7ucJ9i6LOyknb+GsZEJVybJCzhQp285UrqDufQZDWR0UatBeWDxVomGIU2QLrb2ayWTGOc8UH3Vcf3tobSsUAcWKR6MxiwCjfhUSvv9SckbzS5SRflUAjaK82TcZwrqXbbru/V972intkeO63sElZWcCCgKHOUBoQHoo7bC+S7f3ElE+4IBaYxK2FauTZd9ioqEvLCxHmZHNturlu7uoLyMjOL9xEi1PFEu9NFly9IdpgUaW93ZrR7s13wYxo+d95cncyYrPhwZjU0c2YESEHtgJLQNuhoSI0miUT/pYMAFR86QGw46IjjwXjNEmYyK2soljozdAqFKZ9D+WIYcQAGH0kkYOWV9Utsl/l6jVm/UDslJu0Nq1ZqTjWhYh2IooFup1KBcayvYfdkHGQzZxEtZ74HgeixMupVY8bHspcndCgRuWL9bgX8w8gmMU3crOCXQCB9KR7cQP+tWMsHPqPMS59J0ggCIEBkcubJCzMNUcDJNixMlPKmG3UoYdCsAEGNoFqXZdpHNwMk9XzANc3bcbT2xaRThIbIZWpx34c+62N6gSQua87Zqs7YWQfTut7kdQR2gE8pBm0EmzPSMR9dWhEIO6GbAilyjIMQjAFEQ3BaAdAck4liG1n6hReI6FnR6Bgjl1G9AhQYtWGr1rRIL+BYreTtdFgEATh69hDk25xIzAPvnDYHgll5eIMfdioxZBKWyAFbpwZSa/6ofegcHYN2qO2VMC8xtbzA2TR4NZEMOODQ3No1rNmmMzW0DcsuKfeyBgXYlNA+7FeyrkQwjHjYidrO3s1/3oZTu8fB+odfvrs7K2AVgWdZFAyKNt53T7YOyGpjehIrPjAC11xZbbrw/DoDQDeAEJtVPj9vWWiBTUJJnpE+R2IwAVSKgOnBlBPKgsGDH6W+KkTsypkGGkJj/9upsQTn1FCwAmDftqOwcD6rj25coXM0FSepW2sfeL5evy4HgoGJNq71pu+ulFlQKNdsVAcnNjXquZyj696Z3PGLBNRlIRY7G9N8yIm1GVTAC0wsEYyvm/GCFhyhiB35zc+NRW99RZBgjBFEwk93KfefkSRPHkJFGBgvav2LiriAQN2BfwtmP1BsCZ82yyoFkSzFhL5OxAKfEy5mBphXt+1p1X9zRE5nJO+YZPm6iJdiu1rZrux1/71n9qFbHf4etdqf8GEVdqaYDtagjVt48dosT4jrDhoZN317G6CcoI5AqUqyZRX+3HlTThvsuDL7Us1o19aYgxCP4Z2wi+FQ2IfWqIGz9KvideVa2IXCyKVipSyD4NVNp0oArSGtTGJ4KvTSRR9w0c2E/HxnPIjoBy347i83a3YJu0+bSnECq2JWaSJGM02lxGFgajKlKu/uYQBB4ZSNaR2kgBmfVBdk8iCGd9q4MuDhpctJvdmCFECEdLhNY52ggmIbID/D3ht6iq21DwZgLcB0gfAx+e0g/W6QFromKrM2hwnUkaMCa5+wGct+Dpw0/DfjrSPDejExj8+zZpNM5sXlwGencrHnAXQFEZVc2E8hQgiTZTGmdS8xwo0JhbK4WRuy0nzaEBuhZ/Tgr+Kx+kpWF9JyTAzmQMFQx9AHhbZedxSEmqfsF45iGQL9mSS64MHhJ7eDZR2+2Emk6120DQJvh1NwJWQVpItqpfQmYUdCjVUA2hoU1LqzSEqEQL48Ci2R+tXwqFQCTX+58Bf09hoVk2IpWMbbV/ud588nESykyI1t9Ddn86peQ7QEDUKB9gfYF2hdo/0jAslg0A6yddThf/5NwvvyOChDx1tXpO3D3Zflr6PGR3bNr4hYNJNtNGq8MUv6KGtbE7aLycbb508xtJ6GQ1/G/LYOraBwjNUdJyKUdngOf9VZlE3tSz7FndxV77FZTupVFrrIduTNH7xV8e7DCo5ZUxcp/k5X/Rt6Y0iq/vtxb51X4f6BXsWJZCW0dvSq8jcLbKLyNwtt4rLfh54Bsf523sfN0INvEtO7kxnKwDlRr3xxU2z8XoFqAagGqBag+FlTze06Hq4AsdbIHiRD2W/Af8gVC2y8z3crvMgERET0XX70fpQe3Hh9GUjFkAeuZEajoSIqw6RdAVwBdAXSPATo9CR6QNx2MelAKS3oz5W9Omf7+YdAWiT+meJ4VjseomTYJl9iz7AAPYLggU8ksCJCX1Y+GEHwqti7DZvaNt7rOd/2irX2Qvu01GyuQxWk4+8XNsm7lAsYHTbw8kzT6Gt9DsJ10d2yFdmPufI+s1W6f35NiPLEUm3MZnURDVMPme5A0l3gknDqxk5A7P1eWjxRnwpZpj3gcA4su7EE8jU4w9jsCeRhRXj7Hg5ZNxQBYQh5uzyUTNXm2U7edC646A7bJAiG/Ner76zju/zl7o/Vq2W4PQc/NVFD/n23YOnv0F7EPa4zCOj92E2nOL7392mfcxD/fPSxcwMIFLFzAv/1a93ty8vLguPLcxhtYrC5e8SA4WvwCiEdmlzHzwQqP+s5mGaINUGwZUk9fDhJASXfMtyxkAMjTp5o1L69aby6OL968uTgvhzLouaPqzY3NR58G1/bEao5IO+uPOQKfE6bNN9jFvdddNrjdddu59W+7nXv8trBvhX0r7Fuxl/vYvdz8eQ9/b/0Z+qPc1YwGQBb56deTn4jjKTPkirkbZZo8f9yNKPJi7en7P6Srr2X8uGHj7aGQfZBhNHVpuaa9aPUUm1jWST+rjTMsB1Lg0BHHf4LmWpuwM/+N0d9/+vkd8hwJ7u6CvXjyYZ77tYuTPd/NyR4R1fbysnFQnO36v5MAf0ECDtc71PhlDFY3ejPn9ZtD6WZufG6S2b2D1ZfIZDwlOFiSrkmWzNb9Ao9z75dvsoKXxbVhkYHMIFp7RzV3eKM8r7PpYmbC2U2eBv5nnAB7p2294Z5lb3xJDpAgTALzVW7JJflDjLXa+llJg1fbHTfwFvrzX6US4TE1//3PeiflgUqPpsANVoM1iZtIukn5sYluJqy/vjoZVm415K9Tfrf3O2s7f92h79r70/nbzXirOZKmN79rj7d0aeg+V1Exuxqts7vR6cRZeLTQzP1WQF4drkEPuTvbIJhsKJXt9yKC4bLMj7bPQbib8m/AxriL3LYv+2gCe+UiFyjwy8N6zUzL1PBKONdnVuBc8/fHnSrPZ7f8h9hWh/bTFEP7tZ6MRA/PbbgJlmY3mYtPAMUWSbFFUmyRfC+fAPKvfeTA9DUCE75LM0PUuxQxffsYg0hfzlgGT/cqzCJ2fv3V2TLg+p8F3GK19gWrtdxDFfhMTmaQl+zx3W936SNg7nGfGeaRFPGsWbbfdfAJMiJddZVWJ89vJ3yL+NV9EnsvvNL8pSh8oOxDKX0ASgYisAPaq9f8vZ2DGu4cgS/TWvNUDYx//rLPnMPIxO2IeiMJa5Bw2W6lBq1bSSvr2fM4UnGQFyra87fT7LrP6Q941OnzUx8eeAIK3wqzQPwPTcZgeZiyr3Rpk4Tolv9AIukR3+6Lvcmy9Sx/ITWXuKJJ/fnsrEc3+nWFXCa6esk61qZl/rYzR/Pg15ffacMng2aWFHPBqhG0aaRBXINkbmhhdqkJhNzUlpLMkhJnaqFQro3lUgvWFrs3MubBX+wpPEvNKg568ZU7BwazQ2ygXXlVRuUHX2ZB++/+BwAA//8DAJ4/efnWUAAA
+    http_version: 
+  recorded_at: Tue, 25 Feb 2020 21:23:29 GMT
+- request:
+    method: get
+    uri: https://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph004508721?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-musl x86_64) ruby/2.6.5p114
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.12.2
+      Date:
+      - Tue, 25 Feb 2020 21:23:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - JSESSIONID=8A7BE0017EA66315EB41E373CEA471D8; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Tue, 25 Feb 2020 21:23:30 GMT
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Tue, 25 Feb 2020 21:23:29 GMT
+- request:
+    method: get
+    uri: https://bobcatdev.library.nyu.edu/primo_library/libweb/webservices/rest/v1/pnxs/L/nyu_aleph004508721?inst=NYU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-musl x86_64) ruby/2.6.5p114
+      Host:
+      - bobcatdev.library.nyu.edu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.12.2
+      Date:
+      - Tue, 25 Feb 2020 21:23:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - JSESSIONID=6761CC2F1F64865A2E2616D618F16BD5; Path=/primo_library/libweb/;
+        HttpOnly
+      Cache-Control:
+      - max-age=0
+      Expires:
+      - Tue, 25 Feb 2020 21:23:30 GMT
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Tue, 25 Feb 2020 21:23:29 GMT
 recorded_with: VCR 3.0.3
