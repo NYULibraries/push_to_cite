@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rake', '~> 12.0.0'
+gem 'rake', '~> 12.3.3'
 gem 'sinatra', '~> 2.0.3'
 gem 'unicorn', '~> 5.3.0'
 gem 'json', '~> 2.1.0'
