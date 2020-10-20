@@ -29,11 +29,11 @@ RUN apk add --no-cache --update $BUILD_PACKAGES $ADDL_BUILD_PACKAGES $RUN_PACKAG
   && rm -rf /root/.bundle && rm -rf /root/.gem \
   && rm -rf $BUNDLE_PATH/cache \
   && apk del $BUILD_PACKAGES $ADDL_BUILD_PACKAGES \
-&& chown -R docker:docker $BUNDLE_PATH
+  && chown -R docker:docker $BUNDLE_PATH
 
 COPY --chown=docker:docker . .
 
 USER docker
 EXPOSE 9292
 
-CMD ./script/start.sh development
+CMD ["./script/start.sh", "development"]
