@@ -9,8 +9,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
     coderay (1.1.1)
     coveralls (0.8.22)
@@ -55,7 +55,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    public_suffix (3.1.0)
+    public_suffix (4.0.6)
     rack (2.2.3)
     rack-protection (2.0.3)
       rack
