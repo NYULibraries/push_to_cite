@@ -1,4 +1,4 @@
-FROM ruby:2.6-alpine
+FROM ruby:2.6.8-alpine
 
 # Env
 ENV INSTALL_PATH /app
