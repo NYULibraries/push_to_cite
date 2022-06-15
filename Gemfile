@@ -5,7 +5,7 @@ gem 'sinatra', '~> 2.2.0'
 gem 'unicorn', '~> 5.3.0'
 gem 'json', '~> 2.3.1'
 gem 'rest-client', '~> 2.0.2'
-gem 'citero', github: 'NYULibraries/citero', tag: 'v1.0.2'
+gem 'citero', github: 'NYULibraries/citero', tag: 'v1.0.4'
 
 group :test do
   gem 'rspec', '~> 3'
