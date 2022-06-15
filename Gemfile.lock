@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/NYULibraries/citero.git
-  revision: 1ed800ca190cc98845368bd178fa98c8037c6afd
-  branch: feature/database_type
+  revision: 9a01a0214ef0a63af160f0f470691c283d8c0b84
+  tag: v1.0.4
   specs:
-    citero (1.0.3)
+    citero (1.0.4)
       ox (~> 2.8)
 
 GEM
