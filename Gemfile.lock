@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/NYULibraries/citero.git
-  revision: 999994e1c711409cf23d78bc6ee382745df9b9e1
+  revision: 0265611ac657979fb127820d8b858b4aa4184a40
   branch: feature/additional_types
   specs:
     citero (1.0.4)
